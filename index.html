@@ -1,0 +1,913 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VeloPathMapper</title>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+
+<!-- ═══ TOUREN KONFIGURATION ═══
+     Neue Tour hinzufügen:
+       1. Datendatei in tours/ anlegen (Vorlage: tours/giro2026.js)
+       2. Symlinks gpx/<id> und profile/<id> anlegen
+       3. Diesen <script>-Tag hier einfügen
+     ═══════════════════════════ -->
+<script src="tours/giro2026.js"></script>
+<script src="tours/tour2026.js"></script>
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;overflow:hidden;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif}
+
+/* ── Layout ─────────────────────────────── */
+body{display:flex}
+
+/* ── Sidebar ─────────────────────────────── */
+#sidebar{
+  width:272px;flex-shrink:0;
+  background:#1e293b;color:#f8fafc;
+  display:flex;flex-direction:column;
+  border-right:1px solid #0f172a;
+  z-index:400;
+  position:relative;
+}
+#sb-head{
+  padding:14px 16px 12px;
+  background:#0f172a;
+  border-bottom:1px solid #334155;
+  flex-shrink:0;
+}
+#sb-head h1{
+  font-size:16px;font-weight:800;letter-spacing:-.2px;
+  background:linear-gradient(90deg,#38bdf8,#818cf8);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+#sb-head .sub{font-size:10px;color:#475569;margin-top:1px;letter-spacing:.3px;text-transform:uppercase}
+
+#sb-body{flex:1;overflow-y:auto;display:flex;flex-direction:column}
+
+.sb-section{padding:10px 16px 4px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.7px;color:#475569}
+
+/* ── Tour items ──────────────────────────── */
+.tour-item{
+  padding:10px 14px 10px 0;
+  cursor:pointer;
+  border-bottom:1px solid rgba(255,255,255,.05);
+  display:flex;align-items:stretch;gap:10px;
+  border-left:3px solid transparent;
+  transition:background .12s,border-color .15s;
+  user-select:none;
+}
+.tour-item:hover{background:rgba(255,255,255,.04)}
+.tour-item.on{
+  background:rgba(255,255,255,.07);
+  border-left-color:var(--tc);
+}
+.ti-stripe{width:3px;flex-shrink:0}
+.ti-check{
+  width:20px;height:20px;flex-shrink:0;
+  border:2px solid #334155;border-radius:4px;
+  display:flex;align-items:center;justify-content:center;
+  margin-top:2px;margin-left:14px;
+  transition:background .12s,border-color .12s;
+}
+.tour-item.on .ti-check{background:var(--tc);border-color:var(--tc)}
+.ti-check::after{content:'✓';font-size:11px;font-weight:800;color:#fff;opacity:0;transition:opacity .1s}
+.tour-item.on .ti-check::after{opacity:1}
+.ti-body{flex:1;min-width:0}
+.ti-name{font-size:13px;font-weight:700;color:#f1f5f9;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ti-meta{font-size:10px;color:#64748b;margin-top:2px}
+.ti-stats{font-size:10px;color:#475569;margin-top:2px;display:flex;gap:8px;flex-wrap:wrap}
+.ti-stat{display:flex;align-items:center;gap:3px}
+
+/* ── Type filter ─────────────────────────── */
+#type-filters{padding:8px 14px 12px;display:flex;gap:5px;flex-wrap:wrap}
+.fbtn{
+  padding:3px 9px;border-radius:9px;border:none;
+  font-size:10px;font-weight:700;cursor:pointer;
+  color:#fff;opacity:.35;transition:opacity .15s;
+}
+.fbtn.on{opacity:1}
+.fbtn.sprint{background:#22c55e}
+.fbtn.hilly{background:#f97316}
+.fbtn.mountain{background:#ef4444}
+.fbtn.itt{background:#3b82f6}
+
+/* ── Legend ──────────────────────────────── */
+#sb-legend{padding:8px 14px 14px;margin-top:auto;border-top:1px solid rgba(255,255,255,.06)}
+.sb-legend-title{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.7px;color:#475569;margin-bottom:6px}
+.legend-row{display:flex;align-items:center;gap:7px;margin-bottom:4px;font-size:11px;color:#64748b}
+.legend-line{width:22px;height:3px;border-radius:2px;flex-shrink:0}
+.legend-dash{background:repeating-linear-gradient(90deg,currentColor 0 6px,transparent 6px 10px);opacity:.9}
+
+/* ── Content (Tabs + Ansichten) ─────────── */
+#content{flex:1;display:flex;flex-direction:column;overflow:hidden}
+
+/* ── Tabs ────────────────────────────────── */
+#tabs{display:flex;background:#0f172a;height:42px;flex-shrink:0;border-bottom:1px solid #334155}
+.tbtn{padding:0 20px;color:rgba(255,255,255,.45);border:none;background:none;cursor:pointer;font-size:13px;font-weight:500;border-bottom:2px solid transparent;transition:all .2s}
+.tbtn.on{color:#38bdf8;border-bottom-color:#38bdf8}
+.tbtn:hover{color:#fff}
+
+/* ── Kartenansicht ───────────────────────── */
+#vmap{flex:1;display:none;position:relative;overflow:hidden}
+#vmap.on{display:flex}
+#map{flex:1}
+
+/* ── Etappenübersicht ────────────────────── */
+#vstages{flex:1;min-height:0;display:none;flex-direction:column;overflow-y:auto;background:#f0f2f5}
+#vstages.on{display:flex}
+#vstages-hdr{padding:12px 20px;background:#fff;border-bottom:1px solid #dee2e6;display:flex;align-items:center;gap:16px;flex-shrink:0;position:sticky;top:0;z-index:10}
+#vstages-hdr h2{font-size:15px;font-weight:700;color:#1a1a2e}
+.vstats{display:flex;gap:14px;font-size:12px;color:#999;flex-wrap:wrap}
+#sgrid{padding:16px;display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:14px;flex-shrink:0;align-content:start}
+
+/* Tour-Abschnitts-Header (Mehrtour-Modus) */
+.tour-section-hdr{grid-column:1/-1;padding:10px 14px;border-radius:10px;display:flex;align-items:center;gap:10px;border-left:4px solid var(--tc);background:#f8fafc;margin-top:2px}
+.tsh-emoji{font-size:18px;line-height:1}
+.tsh-name{font-size:14px;font-weight:800;color:#1a1a2e}
+.tsh-meta{font-size:11px;color:#64748b}
+
+/* ── Etappenkarte ────────────────────────── */
+.scard{background:#fff;border-radius:12px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,.07);transition:box-shadow .2s,transform .2s;cursor:pointer}
+.scard:hover{box-shadow:0 4px 18px rgba(0,0,0,.13);transform:translateY(-2px)}
+.chead{padding:11px 15px;color:#fff;display:flex;align-items:flex-start;justify-content:space-between}
+.etnum{font-size:20px;font-weight:800;opacity:.95}
+.etdate{font-size:11px;opacity:.8;margin-top:2px}
+.ettype{font-size:11px;opacity:.85;text-align:right;margin-top:4px}
+.ettour{font-size:9px;font-weight:700;padding:2px 5px;border-radius:4px;margin-top:3px;opacity:.9;text-align:right;white-space:nowrap}
+.cbody{padding:12px 15px}
+.croute{font-size:14px;font-weight:700;color:#1a1a2e;margin-bottom:7px}
+.arr{color:#bbb;font-weight:400;margin:0 4px}
+.cstats{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:9px}
+.chip{display:inline-flex;align-items:center;gap:3px;padding:3px 8px;background:#f4f4f4;border-radius:7px;font-size:11px;color:#555}
+.chip.mtn{background:#fee2e2;color:#b91c1c}
+.chip.itt-chip{background:#dbeafe;color:#1d4ed8}
+.cclimbs{font-size:11px;color:#666;margin-bottom:11px;line-height:1.45}
+.cclimbs strong{color:#333}
+.cprofile{background:#f9f9f9;border-radius:8px;overflow:hidden;border:1px solid #ececec;min-height:60px;display:flex;align-items:center;justify-content:center}
+.cprofile img{width:100%;display:block}
+.cph{padding:14px;text-align:center;color:#bbb;font-size:11px}
+.clinks{display:flex;gap:5px;margin-top:9px;flex-wrap:wrap}
+.clink{padding:4px 10px;border-radius:6px;font-size:11px;font-weight:600;text-decoration:none;display:inline-block;color:#fff;transition:opacity .15s}
+.clink:hover{opacity:.85}
+
+/* ── Zeiten in Karte ─────────────────────── */
+.ctimes{display:flex;gap:12px;align-items:center;padding:7px 10px;background:#f0f7ff;border-radius:7px;margin-bottom:10px;font-size:12px;color:#444;flex-wrap:wrap}
+.ctimes .titem{display:flex;align-items:center;gap:4px}
+.ctimes .tlbl{color:#888;font-size:11px}
+.ctimes .tval{font-weight:700;color:#1a1a2e}
+
+/* ── Ruhetags-Karte ──────────────────────── */
+.rcard{background:#fff;border-radius:12px;padding:16px;text-align:center;border:2px dashed #e2e8f0;color:#cbd5e1;display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:80px}
+.rcard strong{font-size:14px;color:#94a3b8;display:block;margin-bottom:4px}
+.rcard span{font-size:11px}
+
+/* ── Modal ───────────────────────────────── */
+#modal{position:fixed;inset:0;background:rgba(0,0,0,.78);z-index:9999;display:none;align-items:flex-start;justify-content:center;padding:20px;overflow-y:auto}
+#modal.on{display:flex}
+#mbox{background:#fff;border-radius:16px;width:100%;max-width:1100px;overflow:hidden;margin:auto;box-shadow:0 8px 40px rgba(0,0,0,.4)}
+#mhdr{padding:14px 18px;color:#fff;display:flex;align-items:center;justify-content:space-between;gap:12px}
+#mhdr .minfo{flex:1}
+.metnum{font-size:22px;font-weight:800;opacity:.95}
+.metdate{font-size:12px;opacity:.8;margin-top:2px}
+.metatour{font-size:11px;opacity:.7;margin-top:1px}
+#mclose{background:rgba(255,255,255,.2);border:none;color:#fff;font-size:20px;cursor:pointer;border-radius:50%;width:34px;height:34px;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:background .15s}
+#mclose:hover{background:rgba(255,255,255,.35)}
+#mbody{padding:14px 18px}
+#mroute{font-size:18px;font-weight:700;color:#1a1a2e;margin-bottom:10px}
+#mstats{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:10px}
+#mclimbs{font-size:13px;color:#555;margin-bottom:14px;line-height:1.5;padding:10px 12px;background:#f8f9fa;border-radius:8px}
+#mclimbs strong{color:#222}
+#mtimes{margin-bottom:14px}
+.tbar{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:8px}
+.tbig{padding:7px 14px;border-radius:8px;background:#f0f7ff;display:flex;flex-direction:column;align-items:center;min-width:90px}
+.tbig .tblbl{font-size:10px;text-transform:uppercase;letter-spacing:.5px;color:#888;margin-bottom:2px}
+.tbig .tbval{font-size:20px;font-weight:800;color:#1a1a2e}
+.tpoints{margin-top:6px}
+.tpoints summary{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:#888;cursor:pointer;padding:4px 0;user-select:none}
+.tpoints summary:hover{color:#444}
+.tplist{margin-top:6px;display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:4px}
+.tprow{display:flex;justify-content:space-between;align-items:center;padding:4px 8px;background:#f8f9fa;border-radius:5px;font-size:12px}
+.tprow .tpname{color:#444}
+.tprow .tptime{font-weight:700;color:#1a1a2e;font-variant-numeric:tabular-nums}
+.tpoints .tnote{font-size:10px;color:#aaa;margin-top:4px;font-style:italic}
+#mimgbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:6px}
+#mimgbar span{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.5px;color:#888}
+#mzoom{padding:4px 12px;border:1px solid #ddd;border-radius:6px;background:#f4f4f4;font-size:11px;font-weight:600;cursor:pointer;color:#444;transition:background .15s}
+#mzoom:hover{background:#e8e8e8}
+#mimgwrap{border-radius:8px;overflow:auto;background:#111;max-height:65vh;border:1px solid #e0e0e0;text-align:center}
+#mimgwrap img{display:inline-block;max-width:100%}
+#mimgwrap.full img{max-width:none;width:auto}
+#mlinks{display:flex;gap:7px;margin-top:14px;flex-wrap:wrap}
+
+/* ── Info Panel ──────────────────────────── */
+#ipanel{
+  position:fixed;bottom:16px;right:16px;
+  width:320px;max-height:calc(100vh - 80px);
+  background:#fff;border-radius:14px;
+  box-shadow:0 6px 32px rgba(0,0,0,.22);
+  overflow:hidden;
+  display:none;z-index:1000;
+}
+#ipanel.on{display:flex;flex-direction:column}
+#ip-hdr{
+  padding:11px 14px;color:#fff;
+  display:flex;align-items:flex-start;justify-content:space-between;
+  flex-shrink:0;
+}
+#ip-hdr .ip-tour{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;opacity:.85;margin-bottom:2px}
+#ip-hdr .ip-title{font-size:14px;font-weight:700;line-height:1.3}
+#ip-close{
+  background:rgba(255,255,255,.2);border:none;color:#fff;
+  width:28px;height:28px;border-radius:50%;flex-shrink:0;
+  cursor:pointer;display:flex;align-items:center;justify-content:center;
+  font-size:16px;transition:background .15s;margin-left:8px;
+}
+#ip-close:hover{background:rgba(255,255,255,.35)}
+#ip-body{padding:12px 14px;overflow-y:auto;flex:1}
+#ip-route{font-size:15px;font-weight:700;color:#1a1a2e;margin-bottom:8px}
+.ip-route-arr{color:#94a3b8;font-weight:400;margin:0 5px}
+#ip-stats{display:flex;flex-wrap:wrap;gap:4px;margin-bottom:8px}
+.istat{
+  display:inline-flex;align-items:center;gap:3px;
+  padding:3px 7px;background:#f4f4f4;border-radius:6px;font-size:11px;color:#444;
+}
+.istat.sprint{background:#dcfce7;color:#166534}
+.istat.hilly{background:#ffedd5;color:#9a3412}
+.istat.mountain{background:#fee2e2;color:#991b1b}
+.istat.itt{background:#dbeafe;color:#1e40af}
+#ip-times{font-size:11px;color:#555;margin-bottom:8px;padding:6px 9px;background:#f0f7ff;border-radius:7px;display:flex;gap:14px;flex-wrap:wrap}
+#ip-times span{display:flex;gap:4px}
+#ip-times b{color:#1a1a2e}
+#ip-climbs{font-size:11px;color:#555;margin-bottom:10px;line-height:1.5}
+#ip-climbs strong{color:#222}
+#ip-profile img{width:100%;border-radius:7px;border:1px solid #eee;display:block;margin-bottom:8px}
+#ip-links{display:flex;gap:5px;flex-wrap:wrap}
+.ip-link{
+  padding:4px 10px;border-radius:6px;
+  font-size:11px;font-weight:600;text-decoration:none;
+  display:inline-block;transition:opacity .15s;
+}
+.ip-link:hover{opacity:.82}
+.ip-link.pcs{background:#6c757d;color:#fff}
+.ip-link.cs{background:#0d9488;color:#fff}
+
+/* ── GPX status badge ────────────────────── */
+#gstatus{
+  position:fixed;bottom:16px;left:286px;
+  background:rgba(15,23,42,.82);color:#fff;
+  padding:5px 12px;border-radius:14px;font-size:11px;
+  z-index:1001;display:none;pointer-events:none;
+}
+
+/* ── Mobile ──────────────────────────────── */
+@media(max-width:700px){
+  #sidebar{width:240px}
+  #ipanel{width:calc(100vw - 260px);min-width:220px}
+  #gstatus{left:250px}
+}
+@media(max-width:500px){
+  body{flex-direction:column}
+  #sidebar{width:100%;height:auto;flex-shrink:0;max-height:40vh}
+  #sb-body{overflow-y:auto}
+  #map{flex:1}
+  #ipanel{width:calc(100vw - 32px);right:16px}
+  #gstatus{left:16px;bottom:50px}
+}
+</style>
+</head>
+<body>
+
+<!-- ═══ SIDEBAR ═══════════════════════════════ -->
+<div id="sidebar">
+  <div id="sb-head">
+    <h1>🗺️ VeloPathMapper</h1>
+    <div class="sub">Grand Tour Kartenviewer</div>
+  </div>
+
+  <div id="sb-body">
+    <div class="sb-section">Touren</div>
+    <div id="tour-list">
+      <!-- wird dynamisch befüllt -->
+    </div>
+
+    <div class="sb-section" style="margin-top:8px">Etappentypen</div>
+    <div id="type-filters">
+      <button class="fbtn sprint on" onclick="toggleType('sprint',this)">Flach</button>
+      <button class="fbtn hilly on"  onclick="toggleType('hilly',this)">Hügelig</button>
+      <button class="fbtn mountain on" onclick="toggleType('mountain',this)">Berg</button>
+      <button class="fbtn itt on"    onclick="toggleType('itt',this)">Zeitf.</button>
+    </div>
+
+    <div id="sb-legend">
+      <div class="sb-legend-title">Legende</div>
+      <div id="legend-tours"><!-- dynamisch --></div>
+      <div style="margin-top:8px">
+        <div class="legend-row"><div class="legend-line" style="background:#555"></div>Etappe (GPX/direkt)</div>
+        <div class="legend-row"><div class="legend-line legend-dash" style="color:#555"></div>Zeitfahren</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ HAUPTINHALT ══════════════════════════════ -->
+<div id="content">
+  <div id="tabs">
+    <button class="tbtn on" onclick="showTab('map')">🗺️ Kartenansicht</button>
+    <button class="tbtn" onclick="showTab('stages')">📋 Etappenübersicht</button>
+  </div>
+  <div id="vmap" class="on"><div id="map"></div></div>
+  <div id="vstages">
+    <div id="vstages-hdr">
+      <h2 id="vstages-title">Etappenübersicht</h2>
+      <div id="vstages-stats" class="vstats"></div>
+    </div>
+    <div id="sgrid"></div>
+  </div>
+</div>
+
+<!-- ═══ INFO PANEL ════════════════════════════ -->
+<div id="ipanel">
+  <div id="ip-hdr">
+    <div>
+      <div class="ip-tour" id="ip-tourname"></div>
+      <div class="ip-title" id="ip-title"></div>
+    </div>
+    <button id="ip-close" onclick="closePanel()">✕</button>
+  </div>
+  <div id="ip-body">
+    <div id="ip-route"></div>
+    <div id="ip-stats"></div>
+    <div id="ip-times"></div>
+    <div id="ip-climbs"></div>
+    <div id="ip-profile"></div>
+    <div id="ip-links"></div>
+  </div>
+</div>
+
+<div id="gstatus">⏳ Lade GPS-Streckendaten…</div>
+
+<!-- ═══ MODAL ════════════════════════════════════ -->
+<div id="modal" onclick="if(event.target===this)closeModal()">
+  <div id="mbox">
+    <div id="mhdr">
+      <div class="minfo">
+        <div class="metnum" id="m-etnum"></div>
+        <div class="metdate" id="m-etdate"></div>
+        <div class="metatour" id="m-ettour"></div>
+      </div>
+      <button id="mclose" onclick="closeModal()">✕</button>
+    </div>
+    <div id="mbody">
+      <div id="mroute"></div>
+      <div id="mstats"></div>
+      <div id="mtimes"></div>
+      <div id="mclimbs"></div>
+      <div id="mimgbar"><span>Höhenprofil</span><button id="mzoom" onclick="toggleZoom()">🔍 Volle Größe</button></div>
+      <div id="mimgwrap"><img id="mimg" alt="Höhenprofil"></div>
+      <div id="mlinks"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ LEAFLET + APP ═════════════════════════ -->
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+// ═══════════════════════════════════════════════
+//  KONSTANTEN
+// ═══════════════════════════════════════════════
+const TL = {sprint:'Flachetappe', hilly:'Hügeliger', mountain:'Bergetappe', itt:'Zeitfahren'};
+const TC = {sprint:'#22c55e', hilly:'#f97316', mountain:'#ef4444', itt:'#3b82f6'};
+
+// ═══════════════════════════════════════════════
+//  ZUSTAND
+// ═══════════════════════════════════════════════
+const state = {
+  selectedTours: new Set(),
+  tourData: {},            // tourId → { stageGroups: { n → {g,line,gpxLine} } }
+  typeFilters: {sprint:true, hilly:true, mountain:true, itt:true},
+  pendingGpx: {},          // tourId → count pending
+};
+
+// ═══════════════════════════════════════════════
+//  KARTE
+// ═══════════════════════════════════════════════
+let map;
+function initMap() {
+  map = L.map('map', {center:[46,8], zoom:5});
+  const osm  = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{
+    attribution:'© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',maxZoom:19});
+  const topo = L.tileLayer('https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png',{
+    attribution:'© <a href="https://opentopomap.org">OpenTopoMap</a> (CC-BY-SA)',maxZoom:17});
+  topo.addTo(map);
+  L.control.layers({'Standard':osm,'Topographie':topo}).addTo(map);
+}
+
+// ═══════════════════════════════════════════════
+//  TOUR UMSCHALTEN
+// ═══════════════════════════════════════════════
+function toggleTour(id) {
+  if (state.selectedTours.has(id)) {
+    state.selectedTours.delete(id);
+    removeTourFromMap(id);
+  } else {
+    state.selectedTours.add(id);
+    addTourToMap(id);
+  }
+  updateSidebarState();
+  updateLegend();
+  if (state.selectedTours.size > 0) fitSelected();
+  if (document.getElementById('vstages').classList.contains('on')) renderStages();
+}
+
+// ═══════════════════════════════════════════════
+//  TOUR AUF KARTE HINZUFÜGEN
+// ═══════════════════════════════════════════════
+function addTourToMap(tourId) {
+  const tour = (window.VPM_TOURS || []).find(t => t.id === tourId);
+  if (!tour) return;
+
+  const data = { stageGroups: {} };
+
+  tour.stages.forEach((s, idx) => {
+    const c = tour.color;
+    const isCircuit = s.sll[0] === s.fll[0] && s.sll[1] === s.fll[1];
+    const fll = isCircuit ? [s.fll[0] + 0.018, s.fll[1] + 0.018] : s.fll;
+    const isDash = s.type === 'itt';
+
+    // Verbindungslinie (Platzhalter bis GPX geladen)
+    const line = L.polyline([s.sll, fll], {
+      color: c, weight: 4, opacity: .7,
+      dashArray: isDash ? '9,5' : null,
+    });
+    line.bindTooltip(stageTip(tour, s), {sticky:true});
+    line.on('click', () => showPanel(tour, s));
+
+    const mkS = makeStartMarker(s.sll, c);
+    const mkF = makeFinishMarker(fll);
+    mkS.bindTooltip(`<b>Start:</b> ${s.start}`);
+    mkF.bindTooltip(`<b>Ziel:</b> ${s.finish}`);
+    [mkS, mkF].forEach(m => m.on('click', () => showPanel(tour, s)));
+
+    // Etappennummer-Badge in der Mitte
+    const mid = [(s.sll[0]+fll[0])/2, (s.sll[1]+fll[1])/2];
+    const tc  = tour.textColor || '#fff';
+    const badge = L.marker(mid, { icon: L.divIcon({
+      className: '',
+      html: `<div style="background:${c};color:${tc};border-radius:50%;width:20px;height:20px;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:800;border:2px solid #fff;box-shadow:0 1px 5px rgba(0,0,0,.4);cursor:pointer">${s.n}</div>`,
+      iconSize:[20,20], iconAnchor:[10,10],
+    })});
+    badge.on('click', () => showPanel(tour, s));
+
+    const g = L.layerGroup([line, mkS, mkF, badge]);
+    if (state.typeFilters[s.type]) g.addTo(map);
+
+    data.stageGroups[s.n] = { g, line, gpxLine: null };
+  });
+
+  state.tourData[tourId] = data;
+  scheduleGPX(tour, data);
+}
+
+function removeTourFromMap(tourId) {
+  const data = state.tourData[tourId];
+  if (!data) return;
+  Object.values(data.stageGroups).forEach(sg => {
+    if (map.hasLayer(sg.g)) map.removeLayer(sg.g);
+  });
+  delete state.tourData[tourId];
+}
+
+// ═══════════════════════════════════════════════
+//  MARKER
+// ═══════════════════════════════════════════════
+function makeStartMarker(ll, c) {
+  return L.marker(ll, { icon: L.divIcon({ className:'',
+    html: `<div style="position:relative;width:20px;height:26px">
+      <div style="position:absolute;left:3px;bottom:0;width:2px;height:22px;background:#333;border-radius:1px;box-shadow:0 1px 3px rgba(0,0,0,.4)"></div>
+      <div style="position:absolute;left:5px;top:3px;width:0;height:0;
+        border-top:9px solid transparent;border-bottom:9px solid transparent;
+        border-left:13px solid ${c};filter:drop-shadow(1px 1px 2px rgba(0,0,0,.35))"></div>
+    </div>`, iconSize:[20,26], iconAnchor:[3,26] })});
+}
+
+function makeFinishMarker(ll) {
+  return L.marker(ll, { icon: L.divIcon({ className:'',
+    html: `<div style="position:relative;width:20px;height:26px">
+      <div style="position:absolute;left:3px;bottom:0;width:2px;height:22px;background:#333;border-radius:1px;box-shadow:0 1px 3px rgba(0,0,0,.4)"></div>
+      <div style="position:absolute;left:5px;top:3px;width:15px;height:11px;
+        background:repeating-conic-gradient(#111 0% 25%,#fff 0% 50%) 0 0/4px 4px;
+        border:1px solid rgba(0,0,0,.3);box-shadow:1px 1px 3px rgba(0,0,0,.35)"></div>
+    </div>`, iconSize:[20,26], iconAnchor:[3,26] })});
+}
+
+function stageTip(tour, s) {
+  return `<b>Et. ${s.n} – ${tour.shortName}</b><br>${s.start} → ${s.finish}<br>${s.dist} km · ${TL[s.type]}`;
+}
+
+// ═══════════════════════════════════════════════
+//  GPX LADEN
+// ═══════════════════════════════════════════════
+let gpxTotal = 0, gpxDone = 0;
+
+async function scheduleGPX(tour, data) {
+  const el = document.getElementById('gstatus');
+  gpxTotal += tour.stages.length;
+  el.style.display = 'block';
+  el.textContent   = `⏳ GPS: ${gpxDone}/${gpxTotal} Etappen`;
+
+  for (let i = 0; i < tour.stages.length; i += 4) {
+    const batch = tour.stages.slice(i, i + 4);
+    await Promise.all(batch.map(s => loadGPX(tour, s, data)));
+    gpxDone = Math.min(gpxDone + 4, gpxTotal);
+    el.textContent = `⏳ GPS: ${gpxDone}/${gpxTotal} Etappen`;
+  }
+  gpxDone = gpxTotal;
+  el.textContent = '✅ GPS-Daten geladen';
+  setTimeout(() => { el.style.display = 'none'; gpxTotal = 0; gpxDone = 0; }, 2500);
+}
+
+async function loadGPX(tour, s, data) {
+  const url = `${tour.gpxBase}stage-${s.n}-route.gpx`;
+  let txt = null;
+  try {
+    const ctrl = new AbortController();
+    const tid  = setTimeout(() => ctrl.abort(), 5000);
+    const r    = await fetch(url, {signal: ctrl.signal});
+    clearTimeout(tid);
+    if (r.ok) txt = await r.text();
+  } catch(e) {}
+  if (!txt) return;
+
+  const pts = parseGPX(txt);
+  if (!pts || pts.length < 2) return;
+
+  const sg = data.stageGroups[s.n];
+  if (!sg) return;
+
+  sg.g.removeLayer(sg.line);
+  const gpxLine = L.polyline(pts, {
+    color: tour.color, weight: 3, opacity: .9,
+    dashArray: s.type === 'itt' ? '9,5' : null,
+  });
+  gpxLine.bindTooltip(stageTip(tour, s), {sticky:true});
+  gpxLine.on('click', () => showPanel(tour, s));
+  sg.g.addLayer(gpxLine);
+  sg.gpxLine = gpxLine;
+}
+
+function parseGPX(txt) {
+  try {
+    const doc = new DOMParser().parseFromString(txt, 'text/xml');
+    let pts = doc.querySelectorAll('trkpt');
+    if (!pts.length) pts = doc.querySelectorAll('rtept');
+    return Array.from(pts)
+      .map(p => [+p.getAttribute('lat'), +p.getAttribute('lon')])
+      .filter(([a,b]) => !isNaN(a) && !isNaN(b));
+  } catch(e) { return null; }
+}
+
+// ═══════════════════════════════════════════════
+//  KARTE AUSRICHTEN
+// ═══════════════════════════════════════════════
+function fitSelected() {
+  const pts = [];
+  state.selectedTours.forEach(id => {
+    const t = (window.VPM_TOURS||[]).find(x => x.id===id);
+    if (t) t.stages.forEach(s => { pts.push(s.sll, s.fll); });
+  });
+  if (pts.length) map.fitBounds(L.latLngBounds(pts).pad(0.04));
+}
+
+// ═══════════════════════════════════════════════
+//  ETAPPENTYP-FILTER
+// ═══════════════════════════════════════════════
+function toggleType(type, btn) {
+  state.typeFilters[type] = !state.typeFilters[type];
+  btn.classList.toggle('on', state.typeFilters[type]);
+
+  state.selectedTours.forEach(tourId => {
+    const data = state.tourData[tourId];
+    const tour = (window.VPM_TOURS||[]).find(t => t.id===tourId);
+    if (!data || !tour) return;
+    tour.stages.forEach(s => {
+      const sg = data.stageGroups[s.n];
+      if (!sg) return;
+      if (state.typeFilters[s.type]) { if (!map.hasLayer(sg.g)) sg.g.addTo(map); }
+      else                           { if (map.hasLayer(sg.g))  map.removeLayer(sg.g); }
+    });
+  });
+}
+
+// ═══════════════════════════════════════════════
+//  INFO PANEL
+// ═══════════════════════════════════════════════
+function showPanel(tour, s) {
+  const c  = tour.color;
+  const tc = tour.textColor || '#fff';
+
+  document.getElementById('ip-hdr').style.background = c;
+  document.getElementById('ip-hdr').style.color = tc;
+  document.getElementById('ip-tourname').textContent = `${tour.emoji} ${tour.shortName}`;
+  document.getElementById('ip-title').textContent = `Etappe ${s.n}`;
+
+  document.getElementById('ip-route').innerHTML =
+    `<span style="font-size:15px;font-weight:700;color:#1a1a2e">${s.start}<span style="color:#94a3b8;margin:0 5px">→</span>${s.finish}</span>`;
+
+  document.getElementById('ip-stats').innerHTML =
+    `<span class="istat">📅 ${s.date}</span>` +
+    `<span class="istat">📏 ${s.dist} km</span>` +
+    `<span class="istat">⛰️ ${s.elev.toLocaleString()} Hm</span>` +
+    `<span class="istat ${s.type}">${TL[s.type]}</span>`;
+
+  const t = tour.times ? tour.times[s.n] : null;
+  if (t) {
+    const sl = t.itt ? 'Erster Start' : 'Start';
+    const fl = t.itt ? 'Letzter Finish' : 'Erw. Ziel';
+    let html = `<span><b>${sl}:</b> ${t.start}</span><span><b>${fl}:</b> ~${t.finish}</span>`;
+    document.getElementById('ip-times').innerHTML = html;
+    document.getElementById('ip-times').style.display = 'flex';
+  } else {
+    document.getElementById('ip-times').style.display = 'none';
+  }
+
+  document.getElementById('ip-climbs').innerHTML =
+    `<strong>Charakter:</strong> ${s.climbs}`;
+
+  const profSrc = `${tour.profileBase}stage-${s.n}-profile.jpg`;
+  document.getElementById('ip-profile').innerHTML =
+    `<img src="${profSrc}" alt="Höhenprofil" onerror="this.style.display='none'">`;
+
+  const urls = tour.urls || {};
+  const off  = urls.official ? urls.official(s.n, s.slug) : null;
+  const pcs  = urls.pcs      ? urls.pcs(s.n)              : null;
+  const cs   = urls.cs       ? urls.cs(s.n)               : null;
+  document.getElementById('ip-links').innerHTML =
+    (off ? `<a href="${off}" target="_blank" class="ip-link" style="background:${c};color:${tc}">Offizielle Seite</a>` : '') +
+    (pcs ? `<a href="${pcs}" target="_blank" class="ip-link pcs">ProCyclingStats</a>` : '') +
+    (cs  ? `<a href="${cs}"  target="_blank" class="ip-link cs">CyclingStage</a>` : '');
+
+  document.getElementById('ipanel').classList.add('on');
+
+  // Zur Etappe zoomen
+  const data = state.tourData[tour.id];
+  if (data && data.stageGroups[s.n]) {
+    const sg  = data.stageGroups[s.n];
+    const src = sg.gpxLine || sg.line;
+    try { map.fitBounds(src.getBounds().pad(0.13)); } catch(e) {}
+  }
+}
+
+function closePanel() {
+  document.getElementById('ipanel').classList.remove('on');
+}
+
+// ═══════════════════════════════════════════════
+//  SIDEBAR AUFBAUEN
+// ═══════════════════════════════════════════════
+function buildSidebar() {
+  const tours = window.VPM_TOURS || [];
+  document.getElementById('tour-list').innerHTML = tours.map(tour => `
+    <div class="tour-item" id="ti-${tour.id}"
+         onclick="toggleTour('${tour.id}')"
+         style="--tc:${tour.color}">
+      <div class="ti-check"></div>
+      <div class="ti-body">
+        <div class="ti-name">${tour.emoji} ${tour.name}</div>
+        <div class="ti-meta">${tour.edition} · ${tour.dates}</div>
+        <div class="ti-stats">
+          <span class="ti-stat">📋 ${tour.stages.length}</span>
+          <span class="ti-stat">📏 ${tour.totalDist}</span>
+          <span class="ti-stat">⛰️ ${tour.totalElev}</span>
+        </div>
+      </div>
+    </div>`).join('');
+}
+
+function updateSidebarState() {
+  (window.VPM_TOURS || []).forEach(tour => {
+    const el = document.getElementById(`ti-${tour.id}`);
+    if (el) el.classList.toggle('on', state.selectedTours.has(tour.id));
+  });
+}
+
+// ═══════════════════════════════════════════════
+//  LEGENDE
+// ═══════════════════════════════════════════════
+function updateLegend() {
+  const tours = (window.VPM_TOURS || []).filter(t => state.selectedTours.has(t.id));
+  document.getElementById('legend-tours').innerHTML = tours.map(t =>
+    `<div class="legend-row">
+      <div class="legend-line" style="background:${t.color}"></div>
+      <span style="color:#94a3b8">${t.shortName}</span>
+    </div>`).join('');
+}
+
+// ═══════════════════════════════════════════════
+//  TABS
+// ═══════════════════════════════════════════════
+function showTab(t) {
+  document.querySelectorAll('.tbtn').forEach((b,i) =>
+    b.classList.toggle('on',(i===0&&t==='map')||(i===1&&t==='stages')));
+  document.getElementById('vmap').classList.toggle('on', t==='map');
+  document.getElementById('vstages').classList.toggle('on', t==='stages');
+  if (t==='map' && map) setTimeout(() => map.invalidateSize(), 80);
+  if (t==='stages') renderStages();
+}
+
+// ═══════════════════════════════════════════════
+//  ETAPPENÜBERSICHT
+// ═══════════════════════════════════════════════
+function renderStages() {
+  const tours = (window.VPM_TOURS||[]).filter(t => state.selectedTours.has(t.id));
+  const multiTour = tours.length > 1;
+  const grid = document.getElementById('sgrid');
+
+  if (tours.length === 1) {
+    const t = tours[0];
+    document.getElementById('vstages-title').textContent = `${t.emoji} ${t.name}`;
+    document.getElementById('vstages-stats').innerHTML =
+      `<span>📋 ${t.stages.length} Etappen</span><span>📏 ${t.totalDist}</span><span>⛰️ ${t.totalElev}</span>`;
+  } else if (tours.length > 1) {
+    document.getElementById('vstages-title').textContent = `${tours.length} Touren`;
+    document.getElementById('vstages-stats').innerHTML =
+      tours.map(t => `<span style="color:${t.color};font-weight:700">${t.emoji} ${t.shortName}</span>`).join('');
+  } else {
+    document.getElementById('vstages-title').textContent = 'Etappenübersicht';
+    document.getElementById('vstages-stats').innerHTML = '';
+  }
+
+  if (tours.length === 0) {
+    grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:48px 20px;color:#aaa">Keine Tour ausgewählt – bitte wähle eine Tour in der Seitenleiste.</div>';
+    return;
+  }
+
+  let html = '';
+  tours.forEach(tour => {
+    if (multiTour) {
+      html += `<div class="tour-section-hdr" style="--tc:${tour.color}">
+        <span class="tsh-emoji">${tour.emoji}</span>
+        <span class="tsh-name">${tour.name}</span>
+        <span class="tsh-meta">${tour.edition} · ${tour.dates} · ${tour.totalDist} · ${tour.totalElev}</span>
+      </div>`;
+    }
+
+    // Build ordered items: stages with rest days inserted after the stage before them
+    const ordered = [];
+    tour.stages.forEach(s => {
+      ordered.push({type:'stage', s});
+      (tour.rest||[]).forEach(r => { if (r.before === s.n + 1) ordered.push({type:'rest', r}); });
+    });
+
+    ordered.forEach(item => {
+      if (item.type === 'rest') {
+        html += `<div class="rcard"><strong>🛌 ${item.r.label}</strong><span>${item.r.date}</span></div>`;
+      } else {
+        const s = item.s;
+        const c = TC[s.type];
+        const t = tour.times ? tour.times[s.n] : null;
+        const tourBadge = multiTour
+          ? `<div class="ettour" style="background:${tour.color};color:${tour.textColor||'#fff'}">${tour.shortName}</div>` : '';
+        let timesHtml = '';
+        if (t) {
+          const sl = t.itt ? 'Erster Start' : 'Start';
+          const fl = t.itt ? 'Letzter Finish' : 'Erw. Ziel';
+          timesHtml = `<div class="ctimes">
+            <div class="titem"><span class="tlbl">${sl}</span><span class="tval">${t.start}</span></div>
+            <div class="titem"><span class="tlbl">${fl}</span><span class="tval">~${t.finish}</span></div>
+          </div>`;
+        }
+        const chipCls = s.type==='mountain' ? ' mtn' : s.type==='itt' ? ' itt-chip' : '';
+        const profSrc = `${tour.profileBase}stage-${s.n}-profile.jpg`;
+        const urls = tour.urls||{};
+        const off = urls.official ? urls.official(s.n, s.slug) : null;
+        const pcs = urls.pcs      ? urls.pcs(s.n)              : null;
+        const cs  = urls.cs       ? urls.cs(s.n)               : null;
+        const linksHtml =
+          (off ? `<a href="${off}" target="_blank" class="clink" style="background:${tour.color};color:${tour.textColor||'#fff'}">Offizielle Seite</a>` : '') +
+          (pcs ? `<a href="${pcs}" target="_blank" class="clink" style="background:#6c757d">ProCyclingStats</a>` : '') +
+          (cs  ? `<a href="${cs}"  target="_blank" class="clink" style="background:#0d9488">CyclingStage</a>`   : '');
+
+        html += `<div class="scard" onclick="openModal('${tour.id}',${s.n})">
+          <div class="chead" style="background:${c}">
+            <div><div class="etnum">Etappe ${s.n}</div><div class="etdate">${s.date}</div></div>
+            <div><div class="ettype">${TL[s.type]}</div>${tourBadge}</div>
+          </div>
+          <div class="cbody">
+            <div class="croute">${s.start}<span class="arr">→</span>${s.finish}</div>
+            <div class="cstats">
+              <span class="chip">📏 ${s.dist} km</span>
+              <span class="chip${chipCls}">⛰️ ${s.elev.toLocaleString()} Hm</span>
+            </div>
+            ${timesHtml}
+            <div class="cclimbs">${s.climbs}</div>
+            <div class="cprofile"><img src="${profSrc}" alt="Profil Et.${s.n}"
+              onerror="this.parentElement.innerHTML='<div class=cph>Kein Profil verfügbar</div>'"></div>
+            <div class="clinks">${linksHtml}</div>
+          </div>
+        </div>`;
+      }
+    });
+  });
+
+  grid.innerHTML = html;
+}
+
+// ═══════════════════════════════════════════════
+//  MODAL
+// ═══════════════════════════════════════════════
+function openModal(tourId, stageN) {
+  const tour = (window.VPM_TOURS||[]).find(t => t.id === tourId);
+  if (!tour) return;
+  const s = tour.stages.find(x => x.n === stageN);
+  if (!s) return;
+
+  const c = TC[s.type];
+  document.getElementById('mhdr').style.background = c;
+  document.getElementById('m-etnum').textContent  = `Etappe ${s.n}`;
+  document.getElementById('m-etdate').textContent = s.date;
+  document.getElementById('m-ettour').textContent = `${tour.emoji} ${tour.name}`;
+
+  document.getElementById('mroute').innerHTML =
+    `${s.start}<span style="color:#bbb;margin:0 8px">→</span>${s.finish}`;
+
+  const chipCls = s.type==='mountain' ? ' mtn' : s.type==='itt' ? ' itt-chip' : '';
+  document.getElementById('mstats').innerHTML =
+    `<span class="chip">📅 ${s.date}</span>` +
+    `<span class="chip">📏 ${s.dist} km</span>` +
+    `<span class="chip${chipCls}">⛰️ ${s.elev.toLocaleString()} Hm</span>` +
+    `<span class="chip" style="background:${c};color:#fff">${TL[s.type]}</span>`;
+
+  const t = tour.times ? tour.times[s.n] : null;
+  if (t) {
+    const sl = t.itt ? 'Erster Start' : 'Start';
+    const fl = t.itt ? 'Letzter Finish' : 'Erw. Ziel';
+    let th = `<div class="tbar">
+      <div class="tbig"><div class="tblbl">${sl}</div><div class="tbval">${t.start}</div></div>
+      <div class="tbig"><div class="tblbl">${fl}</div><div class="tbval">~${t.finish}</div></div>
+    </div>`;
+    if (t.points && t.points.length > 0) {
+      th += `<details class="tpoints"><summary>Passagen &amp; Zwischenzeiten (${t.points.length})</summary>
+        <div class="tplist">${t.points.map(p =>
+          `<div class="tprow"><span class="tpname">${p.name}</span><span class="tptime">${p.time}</span></div>`
+        ).join('')}</div>
+        <div class="tnote">Zeiten sind Schätzungen</div>
+      </details>`;
+    }
+    document.getElementById('mtimes').innerHTML = th;
+    document.getElementById('mtimes').style.display = 'block';
+  } else {
+    document.getElementById('mtimes').style.display = 'none';
+  }
+
+  document.getElementById('mclimbs').innerHTML = `<strong>Charakter:</strong> ${s.climbs}`;
+
+  const imgbar = document.getElementById('mimgbar');
+  const imgwrap = document.getElementById('mimgwrap');
+  const img = document.getElementById('mimg');
+  imgbar.style.display = 'none';
+  imgwrap.style.display = 'none';
+  imgwrap.classList.remove('full');
+  document.getElementById('mzoom').textContent = '🔍 Volle Größe';
+  img.onload  = () => { imgbar.style.display = 'flex'; imgwrap.style.display = 'block'; };
+  img.onerror = () => { imgbar.style.display = 'none'; imgwrap.style.display = 'none'; };
+  img.src = `${tour.profileBase}stage-${s.n}-profile.jpg`;
+
+  const urls = tour.urls||{};
+  const off = urls.official ? urls.official(s.n, s.slug) : null;
+  const pcs = urls.pcs      ? urls.pcs(s.n)              : null;
+  const cs  = urls.cs       ? urls.cs(s.n)               : null;
+  document.getElementById('mlinks').innerHTML =
+    (off ? `<a href="${off}" target="_blank" class="clink" style="background:${tour.color};color:${tour.textColor||'#fff'}">Offizielle Seite</a>` : '') +
+    (pcs ? `<a href="${pcs}" target="_blank" class="clink" style="background:#6c757d">ProCyclingStats</a>` : '') +
+    (cs  ? `<a href="${cs}"  target="_blank" class="clink" style="background:#0d9488">CyclingStage</a>`   : '');
+
+  document.getElementById('modal').classList.add('on');
+  document.getElementById('mbox').scrollTop = 0;
+}
+
+function closeModal() { document.getElementById('modal').classList.remove('on'); }
+
+function toggleZoom() {
+  const wrap = document.getElementById('mimgwrap');
+  wrap.classList.toggle('full');
+  document.getElementById('mzoom').textContent =
+    wrap.classList.contains('full') ? '🔍 Einpassen' : '🔍 Volle Größe';
+}
+
+// ═══════════════════════════════════════════════
+//  INIT
+// ═══════════════════════════════════════════════
+document.addEventListener('DOMContentLoaded', () => {
+  buildSidebar();
+  initMap();
+  // Erste Tour direkt aktivieren
+  const tours = window.VPM_TOURS || [];
+  if (tours.length > 0) toggleTour(tours[0].id);
+});
+
+document.addEventListener('keydown', e => { if (e.key === 'Escape') { closeModal(); closePanel(); } });
+</script>
+</body>
+</html>
