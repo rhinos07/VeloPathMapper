@@ -1,0 +1,566 @@
+{
+  "id": "vuelta2026",
+  "name": "Vuelta a España 2026",
+  "shortName": "Vuelta 2026",
+  "emoji": "🇪🇸",
+  "color": "#dc2626",
+  "textColor": "#ffffff",
+  "edition": "81. Ausgabe",
+  "dates": "22. August – 13. September 2026",
+  "startDesc": "Gran Salida: Monaco",
+  "totalDist": "~3.284 km",
+  "totalElev": "~58.150 Hm",
+  "mapCenter": [
+    40.0,
+    0.5
+  ],
+  "mapZoom": 5,
+  "gpxBase": "gpx/vuelta2026/",
+  "profileBase": "profile/vuelta2026/",
+  "urls": {
+    "official": "https://www.lavuelta.es/en/stage-{n}",
+    "pcs": "https://www.procyclingstats.com/race/vuelta-a-espana/2026/stage-{n}",
+    "cs": "https://www.cyclingstage.com/vuelta-2026-route/stage-{n}-spain-2026/"
+  },
+  "times": {
+    "1": {
+      "start": "16:17",
+      "finish": "19:30",
+      "itt": true,
+      "points": []
+    },
+    "2": {
+      "start": "12:00",
+      "finish": "17:30",
+      "itt": false,
+      "points": []
+    },
+    "3": {
+      "start": "13:10",
+      "finish": "17:18",
+      "itt": false,
+      "points": []
+    },
+    "4": {
+      "start": "14:40",
+      "finish": "17:30",
+      "itt": false,
+      "points": []
+    },
+    "5": {
+      "start": "13:20",
+      "finish": "17:20",
+      "itt": false,
+      "points": []
+    },
+    "6": {
+      "start": "13:00",
+      "finish": "17:18",
+      "itt": false,
+      "points": []
+    },
+    "7": {
+      "start": "13:35",
+      "finish": "17:19",
+      "itt": false,
+      "points": []
+    },
+    "8": {
+      "start": "13:25",
+      "finish": "17:20",
+      "itt": false,
+      "points": []
+    },
+    "9": {
+      "start": "12:10",
+      "finish": "17:14",
+      "itt": false,
+      "points": []
+    },
+    "10": {
+      "start": "12:45",
+      "finish": "17:17",
+      "itt": false,
+      "points": []
+    },
+    "11": {
+      "start": "13:55",
+      "finish": "17:21",
+      "itt": false,
+      "points": []
+    },
+    "12": {
+      "start": "13:00",
+      "finish": "17:16",
+      "itt": false,
+      "points": []
+    },
+    "13": {
+      "start": "12:20",
+      "finish": "17:16",
+      "itt": false,
+      "points": []
+    },
+    "14": {
+      "start": "13:15",
+      "finish": "17:19",
+      "itt": false,
+      "points": []
+    },
+    "15": {
+      "start": "12:35",
+      "finish": "17:16",
+      "itt": false,
+      "points": []
+    },
+    "16": {
+      "start": "13:05",
+      "finish": "17:09",
+      "itt": false,
+      "points": []
+    },
+    "17": {
+      "start": "13:00",
+      "finish": "17:19",
+      "itt": false,
+      "points": []
+    },
+    "18": {
+      "start": "14:06",
+      "finish": "17:30",
+      "itt": true,
+      "points": []
+    },
+    "19": {
+      "start": "11:50",
+      "finish": "17:14",
+      "itt": false,
+      "points": []
+    },
+    "20": {
+      "start": "12:30",
+      "finish": "17:16",
+      "itt": false,
+      "points": []
+    },
+    "21": {
+      "start": "16:20",
+      "finish": "19:06",
+      "itt": false,
+      "points": []
+    }
+  },
+  "stages": [
+    {
+      "n": 1,
+      "date": "Sa 22. August",
+      "start": "Monaco",
+      "finish": "Monaco",
+      "dist": 9,
+      "elev": 200,
+      "type": "itt",
+      "sll": [
+        43.739,
+        7.428
+      ],
+      "fll": [
+        43.735,
+        7.421
+      ],
+      "slug": "monaco-monaco",
+      "climbs": "Technisches Einzelzeitfahren durch Monaco · Start Place du Casino · Fairmont-Haarnadel · Ziel Boulevard Albert Ier"
+    },
+    {
+      "n": 2,
+      "date": "So 23. August",
+      "start": "Monaco",
+      "finish": "Manosque",
+      "dist": 215,
+      "elev": 3100,
+      "type": "hilly",
+      "sll": [
+        43.734,
+        7.387
+      ],
+      "fll": [
+        43.841,
+        5.779
+      ],
+      "slug": "monaco-manosque",
+      "climbs": "Längste Etappe der Rundfahrt · zwei Anstiege der Kat. 3 im ersten Teil · leicht ansteigendes Finale in Manosque"
+    },
+    {
+      "n": 3,
+      "date": "Mo 24. August",
+      "start": "Gruissan",
+      "finish": "Font-Romeu",
+      "dist": 167,
+      "elev": 2600,
+      "type": "mountain",
+      "sll": [
+        43.126,
+        3.063
+      ],
+      "fll": [
+        42.521,
+        2.036
+      ],
+      "slug": "gruissan-font-romeu",
+      "climbs": "Erste 100 km flach · Col de Mont-Louis (Kat. 1) · Bergankunft in Font-Romeu auf rund 1.800 m"
+    },
+    {
+      "n": 4,
+      "date": "Di 25. August",
+      "start": "Andorra la Vella",
+      "finish": "Andorra la Vella",
+      "dist": 105,
+      "elev": 3000,
+      "type": "mountain",
+      "sll": [
+        42.514,
+        1.553
+      ],
+      "fll": [
+        42.507,
+        1.526
+      ],
+      "slug": "andorra-la-vella-andorra-la-vella",
+      "climbs": "Port d’Envalira, Collada de Beixalis und Coll d’Ordino (alle Kat. 1) · kurze, explosive Bergetappe"
+    },
+    {
+      "n": 5,
+      "date": "Mi 26. August",
+      "start": "Falset",
+      "finish": "Roquetes",
+      "dist": 171,
+      "elev": 1650,
+      "type": "sprint",
+      "sll": [
+        41.144,
+        0.82
+      ],
+      "fll": [
+        40.822,
+        0.502
+      ],
+      "slug": "falset-roquetes",
+      "climbs": "Welliges Profil · Alto de Paüls (Kat. 3) gut 20 km vor dem Ziel · Sprintankunft wahrscheinlich"
+    },
+    {
+      "n": 6,
+      "date": "Do 27. August",
+      "start": "Alcossebre",
+      "finish": "Castellón",
+      "dist": 177,
+      "elev": 3000,
+      "type": "hilly",
+      "sll": [
+        40.25,
+        0.248
+      ],
+      "fll": [
+        39.977,
+        -0.038
+      ],
+      "slug": "alcossebre-castellon",
+      "climbs": "Puerto de la Serratella (16,6 km, 4,4 %) · Alto del Desierto de las Palmas · Puerto de Bartolo (9,1 km, 7,2 %) mit 3,1 km Schotter zu 10,8 % · letzte 10 km flach"
+    },
+    {
+      "n": 7,
+      "date": "Fr 28. August",
+      "start": "Vall d’Alba",
+      "finish": "Valdelinares",
+      "dist": 150,
+      "elev": 3550,
+      "type": "mountain",
+      "sll": [
+        40.133,
+        -0.011
+      ],
+      "fll": [
+        40.378,
+        -0.632
+      ],
+      "slug": "vall-d-alba-valdelinares",
+      "climbs": "Puerto de Remolcador · Alto de Zucaina · Puerto de San Rafael · Bergankunft Aramón Valdelinares (8,3 km, 6,5 %) auf 1.961 m · letzte 50 km fast durchgehend bergauf"
+    },
+    {
+      "n": 8,
+      "date": "Sa 29. August",
+      "start": "Puçol",
+      "finish": "Xeraco",
+      "dist": 167,
+      "elev": 1300,
+      "type": "sprint",
+      "sll": [
+        39.616,
+        -0.31
+      ],
+      "fll": [
+        39.033,
+        -0.219
+      ],
+      "slug": "pucol-xeraco",
+      "climbs": "Flache Küstenetappe · Puerto de Barx (Kat. 2) rund 22 km vor dem Ziel · Massensprint erwartet"
+    },
+    {
+      "n": 9,
+      "date": "So 30. August",
+      "start": "La Vila Joiosa",
+      "finish": "Alto de Aitana",
+      "dist": 188,
+      "elev": 5050,
+      "type": "mountain",
+      "sll": [
+        38.537,
+        -0.214
+      ],
+      "fll": [
+        38.65,
+        -0.267
+      ],
+      "slug": "la-vila-joiosa-alto-de-aitana",
+      "climbs": "Sechs kategorisierte Anstiege · Königsetappe der ersten Woche · Bergankunft Alto de Aitana (Kat. 1, 1.558 m)"
+    },
+    {
+      "n": 10,
+      "date": "Di 1. September",
+      "start": "Alcaraz",
+      "finish": "Elche de la Sierra",
+      "dist": 185,
+      "elev": 2650,
+      "type": "hilly",
+      "sll": [
+        38.664,
+        -2.537
+      ],
+      "fll": [
+        38.451,
+        -2.049
+      ],
+      "slug": "alcaraz-elche-de-la-sierra",
+      "climbs": "Drei kategorisierte Anstiege · Puerto de Socovos rund 20 km vor dem Ziel · ansteigender Schlusskilometer"
+    },
+    {
+      "n": 11,
+      "date": "Mi 2. September",
+      "start": "Cartagena",
+      "finish": "Lorca",
+      "dist": 156,
+      "elev": 1400,
+      "type": "sprint",
+      "sll": [
+        37.609,
+        -0.951
+      ],
+      "fll": [
+        37.675,
+        -1.696
+      ],
+      "slug": "cartagena-lorca",
+      "climbs": "Flache Etappe · Alto del Morrón (Kat. 3) 33,5 km vor dem Ziel · Chance für die Sprinter"
+    },
+    {
+      "n": 12,
+      "date": "Do 3. September",
+      "start": "Vera",
+      "finish": "Calar Alto",
+      "dist": 167,
+      "elev": 4450,
+      "type": "mountain",
+      "sll": [
+        37.258,
+        -1.892
+      ],
+      "fll": [
+        37.222,
+        -2.547
+      ],
+      "slug": "vera-calar-alto",
+      "climbs": "Fünf kategorisierte Anstiege · Alto de Velefique und Calar Alto (beide Kat. 1) · Ziel auf über 2.100 m"
+    },
+    {
+      "n": 13,
+      "date": "Fr 4. September",
+      "start": "Almuñécar",
+      "finish": "Loja",
+      "dist": 193,
+      "elev": 3400,
+      "type": "hilly",
+      "sll": [
+        36.746,
+        -3.609
+      ],
+      "fll": [
+        37.163,
+        -4.142
+      ],
+      "slug": "almunecar-loja",
+      "climbs": "Mittelgebirge · Puerto Los Guájares (Kat. 1) · Puerto de Granada (Kat. 2) · 32 km flacher Schlussabschnitt"
+    },
+    {
+      "n": 14,
+      "date": "Sa 5. September",
+      "start": "Jaén",
+      "finish": "Sierra de la Pandera",
+      "dist": 153,
+      "elev": 4050,
+      "type": "mountain",
+      "sll": [
+        37.778,
+        -3.743
+      ],
+      "fll": [
+        37.631,
+        -3.775
+      ],
+      "slug": "jaen-sierra-de-la-pandera",
+      "climbs": "Zwei Anstiege der Kat. 2 im Vorfeld · gefürchtete Bergankunft Sierra de la Pandera mit Rampen über 15 %"
+    },
+    {
+      "n": 15,
+      "date": "So 6. September",
+      "start": "Palma del Río",
+      "finish": "Córdoba",
+      "dist": 181,
+      "elev": 2850,
+      "type": "hilly",
+      "sll": [
+        37.698,
+        -5.28
+      ],
+      "fll": [
+        37.88,
+        -4.775
+      ],
+      "slug": "palma-del-rio-cordoba",
+      "climbs": "Drei Anstiege der Kat. 3 plus unkategorisierte Wellen · Puerto Artafi knapp 30 km vor dem Ziel"
+    },
+    {
+      "n": 16,
+      "date": "Di 8. September",
+      "start": "Cortegana",
+      "finish": "La Rábida",
+      "dist": 186,
+      "elev": 2250,
+      "type": "sprint",
+      "sll": [
+        37.912,
+        -6.822
+      ],
+      "fll": [
+        37.208,
+        -6.921
+      ],
+      "slug": "cortegana-la-rabida",
+      "climbs": "Welliger erster Teil, flaches Küstenfinale bei Palos de la Frontera · Wind kann Gruppen sprengen"
+    },
+    {
+      "n": 17,
+      "date": "Mi 9. September",
+      "start": "Dos Hermanas",
+      "finish": "Sevilla",
+      "dist": 189,
+      "elev": 950,
+      "type": "sprint",
+      "sll": [
+        37.242,
+        -5.925
+      ],
+      "fll": [
+        37.375,
+        -5.991
+      ],
+      "slug": "dos-hermanas-sevilla",
+      "climbs": "Flachste Etappe der Rundfahrt · letzte klare Sprintgelegenheit vor Madrid-Ersatzfinale in Granada"
+    },
+    {
+      "n": 18,
+      "date": "Do 10. September",
+      "start": "El Puerto de Santa María",
+      "finish": "Jerez de la Frontera",
+      "dist": 33,
+      "elev": 200,
+      "type": "itt",
+      "sll": [
+        36.592,
+        -6.231
+      ],
+      "fll": [
+        36.691,
+        -6.135
+      ],
+      "slug": "el-puerto-de-santa-maria-jerez-de-la-frontera",
+      "climbs": "Zweites Einzelzeitfahren · flacher Küstenkurs an der Bucht von Cádiz · Wind als Unsicherheitsfaktor"
+    },
+    {
+      "n": 19,
+      "date": "Fr 11. September",
+      "start": "Vélez-Málaga",
+      "finish": "Peñas Blancas",
+      "dist": 205,
+      "elev": 4000,
+      "type": "mountain",
+      "sll": [
+        36.724,
+        -4.138
+      ],
+      "fll": [
+        36.484,
+        -5.2
+      ],
+      "slug": "velez-malaga-penas-blancas",
+      "climbs": "Zweitlängste Etappe · drei kategorisierte Anstiege · Bergankunft Peñas Blancas oberhalb von Estepona (Kat. 1)"
+    },
+    {
+      "n": 20,
+      "date": "Sa 12. September",
+      "start": "La Calahorra",
+      "finish": "Collada del Alguacil",
+      "dist": 187,
+      "elev": 5050,
+      "type": "mountain",
+      "sll": [
+        37.179,
+        -3.088
+      ],
+      "fll": [
+        37.175,
+        -3.369
+      ],
+      "slug": "la-calahorra-collada-del-alguacil",
+      "climbs": "Königsetappe · fünf kategorisierte Anstiege, davon drei Kat. 1 · Schlussanstieg Collada del Alguacil (HC, 8,3 km zu 9,8 %)"
+    },
+    {
+      "n": 21,
+      "date": "So 13. September",
+      "start": "Granada",
+      "finish": "Granada",
+      "dist": 99,
+      "elev": 1200,
+      "type": "hilly",
+      "sll": [
+        37.155,
+        -3.61
+      ],
+      "fll": [
+        37.174,
+        -3.586
+      ],
+      "slug": "granada-granada",
+      "climbs": "Abschlussrundkurs statt Madrid · fünfmal der Anstieg zur Alhambra · explosives Bergauf-Finale"
+    }
+  ],
+  "rest": [
+    {
+      "before": 10,
+      "date": "Mo 31. August",
+      "label": "Ruhetag 1 – Transfer Alicante → Albacete"
+    },
+    {
+      "before": 16,
+      "date": "Mo 7. September",
+      "label": "Ruhetag 2 – Transfer Córdoba → Huelva"
+    }
+  ]
+}

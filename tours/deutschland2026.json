@@ -1,0 +1,157 @@
+{
+  "id": "deutschland2026",
+  "name": "Lidl Deutschland Tour 2026",
+  "shortName": "Deutschland Tour 2026",
+  "emoji": "🇩🇪",
+  "color": "#2563eb",
+  "textColor": "#ffffff",
+  "edition": "41. Ausgabe",
+  "dates": "19.–23. August 2026",
+  "startDesc": "Auftakt: Bad Orb",
+  "totalDist": "~741,5 km",
+  "totalElev": "~10.550 Hm",
+  "mapCenter": [
+    49.5,
+    9.0
+  ],
+  "mapZoom": 7,
+  "gpxBase": "gpx/deutschland2026/",
+  "profileBase": "profile/deutschland2026/",
+  "urls": {
+    "official": "https://www.deutschland-tour.com/de/etappe-{n}"
+  },
+  "times": {
+    "0": {
+      "start": "14:00",
+      "finish": "15:50",
+      "itt": true,
+      "points": []
+    },
+    "1": {
+      "start": "11:15",
+      "finish": "16:28",
+      "itt": false,
+      "points": []
+    },
+    "2": {
+      "start": "12:05",
+      "finish": "16:32",
+      "itt": false,
+      "points": []
+    },
+    "3": {
+      "start": "13:15",
+      "finish": "17:34",
+      "itt": false,
+      "points": []
+    },
+    "4": {
+      "start": "12:25",
+      "finish": "16:03",
+      "itt": false,
+      "points": []
+    }
+  },
+  "stages": [
+    {
+      "n": 0,
+      "label": "Prolog",
+      "date": "Mi 19. August",
+      "start": "Bad Orb",
+      "finish": "Bad Orb",
+      "dist": 2.5,
+      "elev": 50,
+      "type": "itt",
+      "sll": [
+        50.22425,
+        9.34927
+      ],
+      "fll": [
+        50.226794,
+        9.349801
+      ],
+      "slug": "bad-orb-bad-orb",
+      "climbs": "Kurzer, technischer Prolog durch Bad Orb",
+      "urls": {
+        "official": "https://www.deutschland-tour.com/de/prolog-0"
+      }
+    },
+    {
+      "n": 1,
+      "date": "Do 20. August",
+      "start": "Bad Orb",
+      "finish": "Schwäbisch Hall",
+      "dist": 216.3,
+      "elev": 3000,
+      "type": "hilly",
+      "sll": [
+        50.224195,
+        9.348862
+      ],
+      "fll": [
+        49.109689,
+        9.755119
+      ],
+      "slug": "bad-orb-schwaebisch-hall",
+      "climbs": "Hügelige Auftaktetappe durch Spessart, Odenwald und Hohenlohe"
+    },
+    {
+      "n": 2,
+      "date": "Fr 21. August",
+      "start": "Schwäbisch Hall",
+      "finish": "Offenbach an der Queich",
+      "dist": 196.8,
+      "elev": 2000,
+      "type": "sprint",
+      "sll": [
+        49.11258,
+        9.73699
+      ],
+      "fll": [
+        49.194006,
+        8.190143
+      ],
+      "slug": "schwaebisch-hall-offenbach-an-der-queich",
+      "climbs": "Überwiegend flache Etappe mit einer Chance für die Sprinter"
+    },
+    {
+      "n": 3,
+      "date": "Sa 22. August",
+      "start": "Herxheim bei Landau/Pfalz",
+      "finish": "Bad Dürkheim",
+      "dist": 169.7,
+      "elev": 3000,
+      "type": "hilly",
+      "sll": [
+        49.144329,
+        8.214975
+      ],
+      "fll": [
+        49.46509,
+        8.16995
+      ],
+      "slug": "herxheim-bad-duerkheim",
+      "climbs": "Anspruchsvolle Pfalzetappe mit doppelter Passage der Kalmit"
+    },
+    {
+      "n": 4,
+      "date": "So 23. August",
+      "start": "Heilbronn",
+      "finish": "Heilbronn",
+      "dist": 156.2,
+      "elev": 2500,
+      "type": "hilly",
+      "sll": [
+        49.133714,
+        9.205235
+      ],
+      "fll": [
+        49.13810743341941,
+        9.204089638676749
+      ],
+      "slug": "heilbronn-heilbronn",
+      "climbs": "Hügeliges Finale auf einem Rundkurs mit Start und Ziel in Heilbronn"
+    }
+  ],
+  "rest": []
+}

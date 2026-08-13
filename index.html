@@ -7,14 +7,6 @@
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
 
-<!-- ═══ TOUREN KONFIGURATION ═══
-     Neue Tour hinzufügen:
-       1. Datendatei in tours/ anlegen (Vorlage: tours/giro2026.js)
-       2. Symlinks gpx/<id> und profile/<id> anlegen
-       3. Diesen <script>-Tag hier einfügen
-     ═══════════════════════════ -->
-<script src="tours/giro2026.js"></script>
-<script src="tours/tour2026.js"></script>
 
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
@@ -381,6 +373,34 @@ body{display:flex}
 const TL = {sprint:'Flachetappe', hilly:'Hügeliger', mountain:'Bergetappe', itt:'Zeitfahren'};
 const TC = {sprint:'#22c55e', hilly:'#f97316', mountain:'#ef4444', itt:'#3b82f6'};
 
+
+function expandUrl(template, stage) {
+  return template
+    .replaceAll('{n}', encodeURIComponent(stage.n))
+    .replaceAll('{slug}', encodeURIComponent(stage.slug || ''));
+}
+
+function stageLabel(stage) { return stage.label || `Etappe ${stage.n}`; }
+function stageShortLabel(stage) { return stage.label || `Et. ${stage.n}`; }
+function stageUrl(tour, stage, name) {
+  const template = (stage.urls && stage.urls[name]) || (tour.urls && tour.urls[name]);
+  return template ? expandUrl(template, stage) : null;
+}
+
+async function loadTours() {
+  const manifestResponse = await fetch('tours/manifest.json');
+  if (!manifestResponse.ok) throw new Error(`Tour manifest: HTTP ${manifestResponse.status}`);
+  const files = await manifestResponse.json();
+  const tours = await Promise.all(files.map(async filename => {
+    const file = `tours/${filename}`;
+    const response = await fetch(file);
+    if (!response.ok) throw new Error(`${file}: HTTP ${response.status}`);
+    const tour = await response.json();
+    return tour;
+  }));
+  window.VPM_TOURS = tours;
+}
+
 // ═══════════════════════════════════════════════
 //  ZUSTAND
 // ═══════════════════════════════════════════════
@@ -456,7 +476,7 @@ function addTourToMap(tourId) {
     const tc  = tour.textColor || '#fff';
     const badge = L.marker(mid, { icon: L.divIcon({
       className: '',
-      html: `<div style="background:${c};color:${tc};border-radius:50%;width:20px;height:20px;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:800;border:2px solid #fff;box-shadow:0 1px 5px rgba(0,0,0,.4);cursor:pointer">${s.n}</div>`,
+      html: `<div style="background:${c};color:${tc};border-radius:50%;width:20px;height:20px;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:800;border:2px solid #fff;box-shadow:0 1px 5px rgba(0,0,0,.4);cursor:pointer">${s.label ? s.label.charAt(0) : s.n}</div>`,
       iconSize:[20,20], iconAnchor:[10,10],
     })});
     badge.on('click', () => showPanel(tour, s));
@@ -504,7 +524,7 @@ function makeFinishMarker(ll) {
 }
 
 function stageTip(tour, s) {
-  return `<b>Et. ${s.n} – ${tour.shortName}</b><br>${s.start} → ${s.finish}<br>${s.dist} km · ${TL[s.type]}`;
+  return `<b>${stageShortLabel(s)} – ${tour.shortName}</b><br>${s.start} → ${s.finish}<br>${s.dist} km · ${TL[s.type]}`;
 }
 
 // ═══════════════════════════════════════════════
@@ -611,7 +631,7 @@ function showPanel(tour, s) {
   document.getElementById('ip-hdr').style.background = c;
   document.getElementById('ip-hdr').style.color = tc;
   document.getElementById('ip-tourname').textContent = `${tour.emoji} ${tour.shortName}`;
-  document.getElementById('ip-title').textContent = `Etappe ${s.n}`;
+  document.getElementById('ip-title').textContent = stageLabel(s);
 
   document.getElementById('ip-route').innerHTML =
     `<span style="font-size:15px;font-weight:700;color:#1a1a2e">${s.start}<span style="color:#94a3b8;margin:0 5px">→</span>${s.finish}</span>`;
@@ -640,10 +660,9 @@ function showPanel(tour, s) {
   document.getElementById('ip-profile').innerHTML =
     `<img src="${profSrc}" alt="Höhenprofil" onerror="this.style.display='none'">`;
 
-  const urls = tour.urls || {};
-  const off  = urls.official ? urls.official(s.n, s.slug) : null;
-  const pcs  = urls.pcs      ? urls.pcs(s.n)              : null;
-  const cs   = urls.cs       ? urls.cs(s.n)               : null;
+  const off = stageUrl(tour, s, 'official');
+  const pcs = stageUrl(tour, s, 'pcs');
+  const cs  = stageUrl(tour, s, 'cs');
   document.getElementById('ip-links').innerHTML =
     (off ? `<a href="${off}" target="_blank" class="ip-link" style="background:${c};color:${tc}">Offizielle Seite</a>` : '') +
     (pcs ? `<a href="${pcs}" target="_blank" class="ip-link pcs">ProCyclingStats</a>` : '') +
@@ -781,10 +800,9 @@ function renderStages() {
         }
         const chipCls = s.type==='mountain' ? ' mtn' : s.type==='itt' ? ' itt-chip' : '';
         const profSrc = `${tour.profileBase}stage-${s.n}-profile.jpg`;
-        const urls = tour.urls||{};
-        const off = urls.official ? urls.official(s.n, s.slug) : null;
-        const pcs = urls.pcs      ? urls.pcs(s.n)              : null;
-        const cs  = urls.cs       ? urls.cs(s.n)               : null;
+        const off = stageUrl(tour, s, 'official');
+        const pcs = stageUrl(tour, s, 'pcs');
+        const cs  = stageUrl(tour, s, 'cs');
         const linksHtml =
           (off ? `<a href="${off}" target="_blank" class="clink" style="background:${tour.color};color:${tour.textColor||'#fff'}">Offizielle Seite</a>` : '') +
           (pcs ? `<a href="${pcs}" target="_blank" class="clink" style="background:#6c757d">ProCyclingStats</a>` : '') +
@@ -792,7 +810,7 @@ function renderStages() {
 
         html += `<div class="scard" onclick="openModal('${tour.id}',${s.n})">
           <div class="chead" style="background:${c}">
-            <div><div class="etnum">Etappe ${s.n}</div><div class="etdate">${s.date}</div></div>
+            <div><div class="etnum">${stageLabel(s)}</div><div class="etdate">${s.date}</div></div>
             <div><div class="ettype">${TL[s.type]}</div>${tourBadge}</div>
           </div>
           <div class="cbody">
@@ -803,7 +821,7 @@ function renderStages() {
             </div>
             ${timesHtml}
             <div class="cclimbs">${s.climbs}</div>
-            <div class="cprofile"><img src="${profSrc}" alt="Profil Et.${s.n}"
+            <div class="cprofile"><img src="${profSrc}" alt="Profil ${stageLabel(s)}"
               onerror="this.parentElement.innerHTML='<div class=cph>Kein Profil verfügbar</div>'"></div>
             <div class="clinks">${linksHtml}</div>
           </div>
@@ -826,7 +844,7 @@ function openModal(tourId, stageN) {
 
   const c = TC[s.type];
   document.getElementById('mhdr').style.background = c;
-  document.getElementById('m-etnum').textContent  = `Etappe ${s.n}`;
+  document.getElementById('m-etnum').textContent  = stageLabel(s);
   document.getElementById('m-etdate').textContent = s.date;
   document.getElementById('m-ettour').textContent = `${tour.emoji} ${tour.name}`;
 
@@ -874,11 +892,11 @@ function openModal(tourId, stageN) {
   img.onload  = () => { imgbar.style.display = 'flex'; imgwrap.style.display = 'block'; };
   img.onerror = () => { imgbar.style.display = 'none'; imgwrap.style.display = 'none'; };
   img.src = `${tour.profileBase}stage-${s.n}-profile.jpg`;
+  img.alt = `Profil ${stageLabel(s)}`;
 
-  const urls = tour.urls||{};
-  const off = urls.official ? urls.official(s.n, s.slug) : null;
-  const pcs = urls.pcs      ? urls.pcs(s.n)              : null;
-  const cs  = urls.cs       ? urls.cs(s.n)               : null;
+  const off = stageUrl(tour, s, 'official');
+  const pcs = stageUrl(tour, s, 'pcs');
+  const cs  = stageUrl(tour, s, 'cs');
   document.getElementById('mlinks').innerHTML =
     (off ? `<a href="${off}" target="_blank" class="clink" style="background:${tour.color};color:${tour.textColor||'#fff'}">Offizielle Seite</a>` : '') +
     (pcs ? `<a href="${pcs}" target="_blank" class="clink" style="background:#6c757d">ProCyclingStats</a>` : '') +
@@ -900,12 +918,18 @@ function toggleZoom() {
 // ═══════════════════════════════════════════════
 //  INIT
 // ═══════════════════════════════════════════════
-document.addEventListener('DOMContentLoaded', () => {
-  buildSidebar();
-  initMap();
-  // Erste Tour direkt aktivieren
-  const tours = window.VPM_TOURS || [];
-  if (tours.length > 0) toggleTour(tours[0].id);
+document.addEventListener('DOMContentLoaded', async () => {
+  try {
+    await loadTours();
+    buildSidebar();
+    initMap();
+    // Erste Tour direkt aktivieren
+    const tours = window.VPM_TOURS || [];
+    if (tours.length > 0) toggleTour(tours[0].id);
+  } catch (error) {
+    console.error('Tour data could not be loaded:', error);
+    document.getElementById('tour-list').textContent = 'Tour-Daten konnten nicht geladen werden.';
+  }
 });
 
 document.addEventListener('keydown', e => { if (e.key === 'Escape') { closeModal(); closePanel(); } });

@@ -1,0 +1,793 @@
+{
+  "id": "giro2026",
+  "name": "Giro d'Italia 2026",
+  "shortName": "Giro 2026",
+  "emoji": "🚴",
+  "color": "#e91e8c",
+  "textColor": "#ffffff",
+  "edition": "109. Ausgabe",
+  "dates": "8.–31. Mai 2026",
+  "startDesc": "Grande Partenza: Bulgarien",
+  "totalDist": "~3.459 km",
+  "totalElev": "~49.150 Hm",
+  "mapCenter": [
+    44,
+    14
+  ],
+  "mapZoom": 6,
+  "gpxBase": "gpx/giro2026/",
+  "profileBase": "profile/giro2026/",
+  "urls": {
+    "official": "https://www.giroditalia.it/en/tappe/stage-{n}-of-the-giro-ditalia-2026-{slug}/",
+    "pcs": "https://www.procyclingstats.com/race/giro-d-italia/2026/stage-{n}",
+    "cs": "https://www.cyclingstage.com/giro-2026-route/stage-{n}-italy-2026/"
+  },
+  "times": {
+    "1": {
+      "start": "13:40",
+      "finish": "17:05",
+      "itt": false,
+      "points": []
+    },
+    "2": {
+      "start": "12:00",
+      "finish": "17:02",
+      "itt": false,
+      "points": []
+    },
+    "3": {
+      "start": "13:05",
+      "finish": "17:02",
+      "itt": false,
+      "points": []
+    },
+    "4": {
+      "start": "13:40",
+      "finish": "17:03",
+      "itt": false,
+      "points": [
+        {
+          "name": "Falerna Marina",
+          "time": "~14:15"
+        },
+        {
+          "name": "Amantea",
+          "time": "~14:50"
+        },
+        {
+          "name": "San Lucido",
+          "time": "~15:20"
+        },
+        {
+          "name": "San Vincenzo La Costa",
+          "time": "~16:10"
+        }
+      ]
+    },
+    "5": {
+      "start": "12:15",
+      "finish": "17:00",
+      "itt": false,
+      "points": [
+        {
+          "name": "Francavilla in Sinni",
+          "time": "~13:30"
+        },
+        {
+          "name": "Viggiano",
+          "time": "~15:20"
+        }
+      ]
+    },
+    "6": {
+      "start": "12:45",
+      "finish": "17:04",
+      "itt": false,
+      "points": [
+        {
+          "name": "Salerno",
+          "time": "~14:00"
+        },
+        {
+          "name": "Sarno",
+          "time": "~14:45"
+        },
+        {
+          "name": "Cardito",
+          "time": "~16:00"
+        }
+      ]
+    },
+    "7": {
+      "start": "10:50",
+      "finish": "16:53",
+      "itt": false,
+      "points": [
+        {
+          "name": "Venafro",
+          "time": "~12:45"
+        },
+        {
+          "name": "Castel di Sangro",
+          "time": "~13:50"
+        },
+        {
+          "name": "Roccaraso",
+          "time": "~14:15"
+        },
+        {
+          "name": "Sant'Eufemia a Maiella",
+          "time": "~15:20"
+        },
+        {
+          "name": "Roccamorice",
+          "time": "~16:05"
+        }
+      ]
+    },
+    "8": {
+      "start": "13:15",
+      "finish": "17:04",
+      "itt": false,
+      "points": [
+        {
+          "name": "Roseto degli Abruzzi",
+          "time": "~13:55"
+        },
+        {
+          "name": "Grottammare",
+          "time": "~14:50"
+        },
+        {
+          "name": "Montefiore dell'Aso",
+          "time": "~15:20"
+        },
+        {
+          "name": "Capodarco",
+          "time": "~16:20"
+        }
+      ]
+    },
+    "9": {
+      "start": "12:35",
+      "finish": "17:00",
+      "itt": false,
+      "points": []
+    },
+    "10": {
+      "start": "13:15",
+      "finish": "17:14",
+      "itt": true,
+      "points": [
+        {
+          "name": "Erster Starter",
+          "time": "13:15"
+        },
+        {
+          "name": "Letzter Starter",
+          "time": "~16:30"
+        },
+        {
+          "name": "Letzter Finisher",
+          "time": "~17:14"
+        }
+      ]
+    },
+    "11": {
+      "start": "12:35",
+      "finish": "17:02",
+      "itt": false,
+      "points": [
+        {
+          "name": "Camaiore",
+          "time": "~13:45"
+        },
+        {
+          "name": "Luni",
+          "time": "~14:30"
+        },
+        {
+          "name": "Sestri Levante",
+          "time": "~16:00"
+        }
+      ]
+    },
+    "12": {
+      "start": "13:00",
+      "finish": "16:01",
+      "itt": false,
+      "points": [
+        {
+          "name": "Loano",
+          "time": "~13:45"
+        },
+        {
+          "name": "Savona",
+          "time": "~14:30"
+        },
+        {
+          "name": "Ovada",
+          "time": "~15:55"
+        }
+      ]
+    },
+    "13": {
+      "start": "12:40",
+      "finish": "17:00",
+      "itt": false,
+      "points": [
+        {
+          "name": "Vercelli",
+          "time": "~13:55"
+        },
+        {
+          "name": "Borgomanero",
+          "time": "~15:10"
+        },
+        {
+          "name": "Baveno",
+          "time": "~16:00"
+        }
+      ]
+    },
+    "14": {
+      "start": "12:55",
+      "finish": "16:58",
+      "itt": false,
+      "points": [
+        {
+          "name": "Nus",
+          "time": "~13:20"
+        },
+        {
+          "name": "Doues",
+          "time": "~14:05"
+        },
+        {
+          "name": "Saint-Pierre",
+          "time": "~15:20"
+        },
+        {
+          "name": "Gressan",
+          "time": "~16:10"
+        }
+      ]
+    },
+    "15": {
+      "start": "14:00",
+      "finish": "17:07",
+      "itt": false,
+      "points": []
+    },
+    "16": {
+      "start": "13:45",
+      "finish": "17:01",
+      "itt": false,
+      "points": [
+        {
+          "name": "Biasca",
+          "time": "~14:10"
+        },
+        {
+          "name": "Acquarossa",
+          "time": "~14:20"
+        },
+        {
+          "name": "Leontica (1.)",
+          "time": "~15:00"
+        },
+        {
+          "name": "Faido",
+          "time": "~16:10"
+        },
+        {
+          "name": "Leontica (2.)",
+          "time": "~16:30"
+        }
+      ]
+    },
+    "17": {
+      "start": "12:10",
+      "finish": "17:00",
+      "itt": false,
+      "points": [
+        {
+          "name": "Sarnico",
+          "time": "~13:45"
+        },
+        {
+          "name": "Gardone Valtrompia",
+          "time": "~14:35"
+        },
+        {
+          "name": "Vestone",
+          "time": "~15:25"
+        }
+      ]
+    },
+    "18": {
+      "start": "13:15",
+      "finish": "17:04",
+      "itt": false,
+      "points": []
+    },
+    "19": {
+      "start": "12:30",
+      "finish": "16:54",
+      "itt": false,
+      "points": [
+        {
+          "name": "Cesiomaggiore",
+          "time": "~12:15"
+        },
+        {
+          "name": "Agordo",
+          "time": "~13:25"
+        },
+        {
+          "name": "Dont (Passo Duran)",
+          "time": "~14:20"
+        },
+        {
+          "name": "Selva di Cadore",
+          "time": "~15:05"
+        },
+        {
+          "name": "Passo Giau (Cima Coppi)",
+          "time": "~15:40"
+        },
+        {
+          "name": "Passo Falzarego",
+          "time": "~16:05"
+        }
+      ]
+    },
+    "20": {
+      "start": "11:00",
+      "finish": "15:59",
+      "itt": false,
+      "points": [
+        {
+          "name": "Artegna",
+          "time": "~11:05"
+        },
+        {
+          "name": "Maniago",
+          "time": "~13:25"
+        },
+        {
+          "name": "Piancavallo (1. Auffahrt)",
+          "time": "~14:10"
+        },
+        {
+          "name": "Piancavallo (Ziel, 2. Auffahrt)",
+          "time": "~15:59"
+        }
+      ]
+    },
+    "21": {
+      "start": "15:25",
+      "finish": "18:36",
+      "itt": false,
+      "points": []
+    }
+  },
+  "stages": [
+    {
+      "n": 1,
+      "date": "Fr 8. Mai",
+      "start": "Nessebar",
+      "finish": "Burgas",
+      "dist": 147,
+      "elev": 500,
+      "type": "sprint",
+      "sll": [
+        42.66,
+        27.729
+      ],
+      "fll": [
+        42.511,
+        27.461
+      ],
+      "slug": "nessebar-burgas",
+      "climbs": "Flachetappe entlang der Schwarzmeerküste · 11-km-Zielrundkurs"
+    },
+    {
+      "n": 2,
+      "date": "Sa 9. Mai",
+      "start": "Burgas",
+      "finish": "Veliko Tarnovo",
+      "dist": 221,
+      "elev": 2600,
+      "type": "hilly",
+      "sll": [
+        42.511,
+        27.461
+      ],
+      "fll": [
+        43.075,
+        25.617
+      ],
+      "slug": "burgas-veliko-tarnovo",
+      "climbs": "Ljasskovec-Klosterpass (Kat. 3, 11 km vor Ziel, Steigung bis 9 %)"
+    },
+    {
+      "n": 3,
+      "date": "So 10. Mai",
+      "start": "Plovdiv",
+      "finish": "Sofia",
+      "dist": 175,
+      "elev": 1600,
+      "type": "sprint",
+      "sll": [
+        42.15,
+        24.75
+      ],
+      "fll": [
+        42.698,
+        23.322
+      ],
+      "slug": "plovdiv-sofia",
+      "climbs": "Borovec-Pass (Kat. 3, Streckenmitte) · Sprint-Finale im Zentrum Sofias"
+    },
+    {
+      "n": 4,
+      "date": "Di 12. Mai",
+      "start": "Catanzaro",
+      "finish": "Cosenza",
+      "dist": 140,
+      "elev": 1800,
+      "type": "hilly",
+      "sll": [
+        38.911,
+        16.587
+      ],
+      "fll": [
+        39.3,
+        16.249
+      ],
+      "slug": "catanzaro-cosenza",
+      "climbs": "Cozzo Tunno (Kat. 2): 14,5 km bei Ø 6 %, Gipfel ~70 km vor Ziel"
+    },
+    {
+      "n": 5,
+      "date": "Mi 13. Mai",
+      "start": "Praia a Mare",
+      "finish": "Potenza",
+      "dist": 203,
+      "elev": 4100,
+      "type": "mountain",
+      "sll": [
+        39.899,
+        15.778
+      ],
+      "fll": [
+        40.641,
+        15.799
+      ],
+      "slug": "praia-a-mare-potenza",
+      "climbs": "Prestieri (KOM) · Montagna Grande di Viggiano (Kat. 2): 6,6 km bei Ø 9,2 %, max. 15 %"
+    },
+    {
+      "n": 6,
+      "date": "Do 14. Mai",
+      "start": "Paestum",
+      "finish": "Neapel",
+      "dist": 150,
+      "elev": 500,
+      "type": "sprint",
+      "sll": [
+        40.421,
+        15.001
+      ],
+      "fll": [
+        40.851,
+        14.268
+      ],
+      "slug": "paestum-napoli",
+      "climbs": "Fuorigrotta (kurzer Anstieg nahe Ziel) · 5. Neapel-Finish in Folge"
+    },
+    {
+      "n": 7,
+      "date": "Fr 15. Mai",
+      "start": "Formia",
+      "finish": "Blockhaus",
+      "dist": 245,
+      "elev": 4600,
+      "type": "mountain",
+      "sll": [
+        41.258,
+        13.609
+      ],
+      "fll": [
+        42.079,
+        14.136
+      ],
+      "slug": "formia-blockhaus",
+      "climbs": "Blockhaus (Bergziel): 13,6 km bei Ø 9 %, max. 14 %, Höhe 1.665 m – längste Etappe seit Jahren"
+    },
+    {
+      "n": 8,
+      "date": "Sa 16. Mai",
+      "start": "Chieti",
+      "finish": "Fermo",
+      "dist": 157,
+      "elev": 1900,
+      "type": "hilly",
+      "sll": [
+        42.351,
+        14.168
+      ],
+      "fll": [
+        43.162,
+        13.717
+      ],
+      "slug": "chieti-fermo",
+      "climbs": "4 Anstiege im Finale · Muro del Ferro (11 %) · Fermo-Anstieg: 3,4 km bei Ø 6,1 %"
+    },
+    {
+      "n": 9,
+      "date": "So 17. Mai",
+      "start": "Cervia",
+      "finish": "Corno alle Scale",
+      "dist": 184,
+      "elev": 2400,
+      "type": "mountain",
+      "sll": [
+        44.258,
+        12.352
+      ],
+      "fll": [
+        44.132,
+        10.951
+      ],
+      "slug": "cervia-corno-alle-scale",
+      "climbs": "Corno alle Scale (Bergziel): 12,8 km bei Ø 5,9 %, letzte 3 km > 10 %, max. 15 %, Höhe 1.945 m"
+    },
+    {
+      "n": 10,
+      "date": "Di 19. Mai",
+      "start": "Viareggio",
+      "finish": "Massa",
+      "dist": 42,
+      "elev": 50,
+      "type": "itt",
+      "sll": [
+        43.867,
+        10.25
+      ],
+      "fll": [
+        44.036,
+        10.141
+      ],
+      "slug": "viareggio-massa",
+      "climbs": "TUDOR-Einzelzeitfahren · flache Küstenroute · zwei U-Turns · Wind entscheidend"
+    },
+    {
+      "n": 11,
+      "date": "Mi 20. Mai",
+      "start": "Porcari",
+      "finish": "Chiavari",
+      "dist": 185,
+      "elev": 2500,
+      "type": "hilly",
+      "sll": [
+        43.843,
+        10.612
+      ],
+      "fll": [
+        44.318,
+        9.322
+      ],
+      "slug": "porcari-paper-district-chiavari",
+      "climbs": "Colle di Gualtarola (10 km bei Ø 6,3 %) · San Bartolomeo (4,6 km bei Ø 6,3 %, −9 km)"
+    },
+    {
+      "n": 12,
+      "date": "Do 21. Mai",
+      "start": "Imperia",
+      "finish": "Novi Ligure",
+      "dist": 176,
+      "elev": 1500,
+      "type": "sprint",
+      "sll": [
+        43.887,
+        8.027
+      ],
+      "fll": [
+        44.762,
+        8.793
+      ],
+      "slug": "imperia-novi-ligure",
+      "climbs": "Bric Berton (Kat. 3, 4 km bei Ø 7 %) · letzter Anstieg 52 km vor Ziel · Sprint-Finale"
+    },
+    {
+      "n": 13,
+      "date": "Fr 22. Mai",
+      "start": "Alessandria",
+      "finish": "Verbania",
+      "dist": 187,
+      "elev": 2000,
+      "type": "hilly",
+      "sll": [
+        44.914,
+        8.615
+      ],
+      "fll": [
+        45.922,
+        8.554
+      ],
+      "slug": "alessandria-verbania",
+      "climbs": "Bieno (Kat. 4) · Ungiasca (Kat. 3, Gipfel 13 km vor Ziel) · Lago-Maggiore-Finale"
+    },
+    {
+      "n": 14,
+      "date": "Sa 23. Mai",
+      "start": "Aosta",
+      "finish": "Pila",
+      "dist": 133,
+      "elev": 4350,
+      "type": "mountain",
+      "sll": [
+        45.737,
+        7.315
+      ],
+      "fll": [
+        45.71,
+        7.29
+      ],
+      "slug": "aosta-pila",
+      "climbs": "Saint-Barthélémy (17,6 km bei Ø 5,5 %) · Pila/Gressan (Bergziel): 16,5 km bei Ø 7–9 %, max. 11 %, Höhe 1.800 m · 1. Königsetappe"
+    },
+    {
+      "n": 15,
+      "date": "So 24. Mai",
+      "start": "Voghera",
+      "finish": "Mailand",
+      "dist": 145,
+      "elev": 400,
+      "type": "sprint",
+      "sll": [
+        44.993,
+        9.009
+      ],
+      "fll": [
+        45.464,
+        9.19
+      ],
+      "slug": "voghera-milano",
+      "climbs": "Flachetappe · Erholungsetappe nach der Königsetappe · Ziel in Mailand"
+    },
+    {
+      "n": 16,
+      "date": "Di 26. Mai",
+      "start": "Bellinzona",
+      "finish": "Carì",
+      "dist": 113,
+      "elev": 3000,
+      "type": "mountain",
+      "sll": [
+        46.195,
+        9.024
+      ],
+      "fll": [
+        46.471,
+        8.867
+      ],
+      "slug": "bellinzona-cari",
+      "climbs": "Leontica (2× befahren) · Carì (Bergziel): 12 km bei Ø 8 %, max. 13 %, Höhe 1.600 m · komplett in der Schweiz"
+    },
+    {
+      "n": 17,
+      "date": "Mi 27. Mai",
+      "start": "Cassano d'Adda",
+      "finish": "Andalo",
+      "dist": 201,
+      "elev": 3300,
+      "type": "hilly",
+      "sll": [
+        45.524,
+        9.526
+      ],
+      "fll": [
+        46.167,
+        11.002
+      ],
+      "slug": "cassano-dadda-andalo",
+      "climbs": "Passo dei Tre Termini · Cocca di Lodrino · Andalo (Bergziel): 6 km bei Ø 6,8 %"
+    },
+    {
+      "n": 18,
+      "date": "Do 28. Mai",
+      "start": "Fai della Paganella",
+      "finish": "Pieve di Soligo",
+      "dist": 169,
+      "elev": 2200,
+      "type": "hilly",
+      "sll": [
+        46.16,
+        11.044
+      ],
+      "fll": [
+        45.903,
+        12.172
+      ],
+      "slug": "fai-della-paganella-pieve-di-soligo",
+      "climbs": "Muro di Ca' del Poggio (~11 %, 10 km vor Ziel) · Übergangsetappe vor Dolomiten-Finale"
+    },
+    {
+      "n": 19,
+      "date": "Fr 29. Mai",
+      "start": "Feltre",
+      "finish": "Alleghe",
+      "dist": 151,
+      "elev": 5000,
+      "type": "mountain",
+      "sll": [
+        46.015,
+        11.905
+      ],
+      "fll": [
+        46.381,
+        12.024
+      ],
+      "slug": "feltre-alleghe",
+      "climbs": "Passo Duran (max. 14 %) · Coi (max. 19 %) · Forcella Staulanza (max. 10 %) · Passo Giau (CIMA COPPI, 2.305 m, Ø 9,4 %) · Passo Falzarego (2.105 m) · Piani di Pezzè (Bergziel): 5 km bei Ø 10 %"
+    },
+    {
+      "n": 20,
+      "date": "Sa 30. Mai",
+      "start": "Gemona del Friuli",
+      "finish": "Piancavallo",
+      "dist": 200,
+      "elev": 3750,
+      "type": "mountain",
+      "sll": [
+        46.277,
+        13.137
+      ],
+      "fll": [
+        46.163,
+        12.542
+      ],
+      "slug": "gemona-del-friuli-1976-2026-piancavallo",
+      "climbs": "Clauzetto (Kat.) · Piancavallo (2× befahren, Bergziel): 14,4 km bei Ø 8,9 %, max. 12 %, Höhe 1.265 m · vorletztes Showdown"
+    },
+    {
+      "n": 21,
+      "date": "So 31. Mai",
+      "start": "Rom",
+      "finish": "Rom",
+      "dist": 131,
+      "elev": 600,
+      "type": "sprint",
+      "sll": [
+        41.897,
+        12.477
+      ],
+      "fll": [
+        41.897,
+        12.477
+      ],
+      "slug": "roma-roma",
+      "climbs": "Kriterium auf Rom-Rundkurs · Siegerehrung an historischen Wahrzeichen · Abschluss-Sprint"
+    }
+  ],
+  "rest": [
+    {
+      "before": 4,
+      "date": "Mo 11. Mai",
+      "label": "Ruhetag 1 – Transfer Bulgarien → Kalabrien"
+    },
+    {
+      "before": 10,
+      "date": "Mo 18. Mai",
+      "label": "Ruhetag 2"
+    },
+    {
+      "before": 16,
+      "date": "Mo 25. Mai",
+      "label": "Ruhetag 3"
+    }
+  ]
+}

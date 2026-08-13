@@ -15,7 +15,7 @@ Ausführen aus dem VeloPathMapper-Verzeichnis:
     python3 generate_profiles.py
 """
 
-import os, sys, math
+import json, os, sys, math
 import numpy as np
 
 try:
@@ -33,106 +33,6 @@ except ImportError:
 # ──────────────────────────────────────────────────────────────
 # TOUR-DATEN
 # ──────────────────────────────────────────────────────────────
-
-GIRO_STAGES = [
-    {'n':1,  'start':'Nessebar',           'finish':'Burgas',             'dist':147,'elev':500,  'type':'sprint'},
-    {'n':2,  'start':'Burgas',             'finish':'Veliko Tarnovo',     'dist':221,'elev':2600, 'type':'hilly'},
-    {'n':3,  'start':'Plovdiv',            'finish':'Sofia',              'dist':175,'elev':1600, 'type':'sprint'},
-    {'n':4,  'start':'Catanzaro',          'finish':'Cosenza',            'dist':140,'elev':1800, 'type':'hilly'},
-    {'n':5,  'start':'Praia a Mare',       'finish':'Potenza',            'dist':203,'elev':4100, 'type':'mountain'},
-    {'n':6,  'start':'Paestum',            'finish':'Neapel',             'dist':150,'elev':500,  'type':'sprint'},
-    {'n':7,  'start':'Formia',             'finish':'Blockhaus',          'dist':245,'elev':4600, 'type':'mountain'},
-    {'n':8,  'start':'Chieti',             'finish':'Fermo',              'dist':157,'elev':1900, 'type':'hilly'},
-    {'n':9,  'start':'Cervia',             'finish':'Corno alle Scale',   'dist':184,'elev':2400, 'type':'mountain'},
-    {'n':10, 'start':'Viareggio',          'finish':'Massa',              'dist':42, 'elev':50,   'type':'itt'},
-    {'n':11, 'start':'Porcari',            'finish':'Chiavari',           'dist':185,'elev':2500, 'type':'hilly'},
-    {'n':12, 'start':'Imperia',            'finish':'Novi Ligure',        'dist':176,'elev':1500, 'type':'sprint'},
-    {'n':13, 'start':'Alessandria',        'finish':'Verbania',           'dist':187,'elev':2000, 'type':'hilly'},
-    {'n':14, 'start':'Aosta',              'finish':'Pila',               'dist':133,'elev':4350, 'type':'mountain'},
-    {'n':15, 'start':'Voghera',            'finish':'Mailand',            'dist':145,'elev':400,  'type':'sprint'},
-    {'n':16, 'start':'Bellinzona',         'finish':'Carì',               'dist':113,'elev':3000, 'type':'mountain'},
-    {'n':17, 'start':"Cassano d'Adda",    'finish':'Andalo',             'dist':201,'elev':3300, 'type':'hilly'},
-    {'n':18, 'start':'Fai della Paganella','finish':'Pieve di Soligo',   'dist':169,'elev':2200, 'type':'hilly'},
-    {'n':19, 'start':'Feltre',             'finish':'Alleghe',            'dist':151,'elev':5000, 'type':'mountain'},
-    {'n':20, 'start':'Gemona del Friuli',  'finish':'Piancavallo',        'dist':200,'elev':3750, 'type':'mountain'},
-    {'n':21, 'start':'Rom',               'finish':'Rom',                'dist':131,'elev':600,  'type':'sprint'},
-]
-
-GIRO_TIMES = {
-    1:  {'start':'13:40','finish':'17:05','points':[]},
-    2:  {'start':'12:00','finish':'17:02','points':[]},
-    3:  {'start':'13:05','finish':'17:02','points':[]},
-    4:  {'start':'13:40','finish':'17:03','points':[
-            {'name':'Falerna Marina','time':'14:15'},{'name':'Amantea','time':'14:50'},
-            {'name':'San Lucido','time':'15:20'},{'name':'San Vincenzo la Costa','time':'16:10'}]},
-    5:  {'start':'12:15','finish':'17:00','points':[
-            {'name':'Francavilla in Sinni','time':'13:30'},{'name':'Viggiano','time':'15:20'}]},
-    6:  {'start':'12:45','finish':'17:04','points':[
-            {'name':'Salerno','time':'14:00'},{'name':'Sarno','time':'14:45'},
-            {'name':'Cardito','time':'16:00'}]},
-    7:  {'start':'10:50','finish':'16:53','points':[
-            {'name':'Venafro','time':'12:45'},{'name':'Castel di Sangro','time':'13:50'},
-            {'name':'Roccaraso','time':'14:15'},{'name':'Roccamorice','time':'16:05'}]},
-    8:  {'start':'13:15','finish':'17:04','points':[
-            {'name':'Roseto degli Abruzzi','time':'13:55'},{'name':'Grottammare','time':'14:50'},
-            {'name':'Capodarco','time':'16:20'}]},
-    9:  {'start':'12:35','finish':'17:00','points':[]},
-    10: {'start':'13:15','finish':'17:14','points':[]},
-    11: {'start':'12:35','finish':'17:02','points':[
-            {'name':'Camaiore','time':'13:45'},{'name':'Luni','time':'14:30'},
-            {'name':'Sestri Levante','time':'16:00'}]},
-    12: {'start':'13:00','finish':'16:01','points':[
-            {'name':'Loano','time':'13:45'},{'name':'Savona','time':'14:30'},
-            {'name':'Ovada','time':'15:55'}]},
-    13: {'start':'12:40','finish':'17:00','points':[
-            {'name':'Vercelli','time':'13:55'},{'name':'Borgomanero','time':'15:10'},
-            {'name':'Baveno','time':'16:00'}]},
-    14: {'start':'12:55','finish':'16:58','points':[
-            {'name':'Nus','time':'13:20'},{'name':'Doues','time':'14:05'},
-            {'name':'Saint-Pierre','time':'15:20'},{'name':'Gressan','time':'16:10'}]},
-    15: {'start':'14:00','finish':'17:07','points':[]},
-    16: {'start':'13:45','finish':'17:01','points':[
-            {'name':'Biasca','time':'14:10'},{'name':'Leontica (1.)','time':'15:00'},
-            {'name':'Faido','time':'16:10'},{'name':'Leontica (2.)','time':'16:30'}]},
-    17: {'start':'12:10','finish':'17:00','points':[
-            {'name':'Sarnico','time':'13:45'},{'name':'Gardone Valtrompia','time':'14:35'},
-            {'name':'Vestone','time':'15:25'}]},
-    18: {'start':'13:15','finish':'17:04','points':[]},
-    19: {'start':'12:30','finish':'16:54','points':[
-            {'name':'Agordo','time':'13:25'},{'name':'Passo Duran','time':'14:20'},
-            {'name':'Passo Giau (Cima Coppi)','time':'15:40'},
-            {'name':'Passo Falzarego','time':'16:05'}]},
-    20: {'start':'11:00','finish':'15:59','points':[
-            {'name':'Maniago','time':'13:25'},
-            {'name':'Piancavallo (1. Auffahrt)','time':'14:10'}]},
-    21: {'start':'15:25','finish':'18:36','points':[]},
-}
-
-TOUR_STAGES = [
-    {'n':1,  'start':'Barcelona',          'finish':'Barcelona',          'dist':19, 'elev':50,   'type':'itt'},
-    {'n':2,  'start':'Tarragona',          'finish':'Barcelona',          'dist':182,'elev':2400, 'type':'hilly'},
-    {'n':3,  'start':'Granollers',         'finish':'Les Angles',         'dist':196,'elev':4000, 'type':'mountain'},
-    {'n':4,  'start':'Carcassonne',        'finish':'Foix',               'dist':182,'elev':2800, 'type':'hilly'},
-    {'n':5,  'start':'Lannemezan',         'finish':'Pau',                'dist':158,'elev':600,  'type':'sprint'},
-    {'n':6,  'start':'Pau',               'finish':'Gavarnie-Gèdre',     'dist':186,'elev':4150, 'type':'mountain'},
-    {'n':7,  'start':'Hagetmau',           'finish':'Bordeaux',           'dist':175,'elev':400,  'type':'sprint'},
-    {'n':8,  'start':'Périgueux',          'finish':'Bergerac',           'dist':182,'elev':400,  'type':'sprint'},
-    {'n':9,  'start':'Malemort',           'finish':'Ussel',              'dist':185,'elev':3500, 'type':'hilly'},
-    {'n':10, 'start':'Aurillac',           'finish':'Le Lioran',          'dist':167,'elev':3900, 'type':'mountain'},
-    {'n':11, 'start':'Vichy',             'finish':'Nevers',             'dist':161,'elev':1800, 'type':'sprint'},
-    {'n':12, 'start':'Nevers Magny-Cours','finish':'Chalon-sur-Saône',   'dist':181,'elev':500,  'type':'sprint'},
-    {'n':13, 'start':'Dole',              'finish':'Belfort',            'dist':205,'elev':2200, 'type':'hilly'},
-    {'n':14, 'start':'Mulhouse',          'finish':'Le Markstein',       'dist':155,'elev':3800, 'type':'mountain'},
-    {'n':15, 'start':'Champagnole',       'finish':'Plateau de Solaison','dist':184,'elev':4700, 'type':'mountain'},
-    {'n':16, 'start':'Évian-les-Bains',   'finish':'Thonon-les-Bains',   'dist':26, 'elev':500,  'type':'itt'},
-    {'n':17, 'start':'Chambéry',          'finish':'Voiron',             'dist':175,'elev':2400, 'type':'sprint'},
-    {'n':18, 'start':'Voiron',            'finish':'Orcières-Merlette',  'dist':185,'elev':3800, 'type':'mountain'},
-    {'n':19, 'start':'Gap',              'finish':"Alpe d'Huez",         'dist':128,'elev':3200, 'type':'mountain'},
-    {'n':20, 'start':"Le Bourg-d'Oisans",'finish':"Alpe d'Huez",         'dist':171,'elev':5600, 'type':'mountain'},
-    {'n':21, 'start':'Thoiry',           'finish':'Paris',              'dist':130,'elev':900,  'type':'sprint'},
-]
-
-TOUR_TIMES = {n: {'start':'12:00','finish':'17:00','points':[]} for n in range(1, 22)}
 
 # ──────────────────────────────────────────────────────────────
 # WEGPUNKTE  (aus den offiziellen Streckenprofilen extrahiert)
@@ -229,12 +129,55 @@ TOUR_WAYPOINTS = {
     ],
 }
 
-TOURS = [
-    {'id':'giro2026', 'stages':GIRO_STAGES, 'times':GIRO_TIMES, 'waypoints':GIRO_WAYPOINTS},
-    {'id':'tour2026', 'stages':TOUR_STAGES, 'times':TOUR_TIMES, 'waypoints':TOUR_WAYPOINTS},
-]
+DEUTSCHLAND_WAYPOINTS = {
+    1: [  # Bad Orb → Schwäbisch Hall
+        {'name': 'Reicholzheim',        'km':  91.2},
+        {'name': 'Hermersberg',         'km': 161.0},
+    ],
+    2: [  # Schwäbisch Hall → Offenbach an der Queich
+        {'name': 'Juxkopf',             'km':  38.9},
+    ],
+    3: [  # Herxheim bei Landau/Pfalz → Bad Dürkheim
+        {'name': 'Lolosruhe',           'km':  37.9},
+        {'name': 'Kalmit (1.)',         'km':  56.4},
+        {'name': 'Kalmit (2.)',         'km':  70.7},
+        {'name': 'Rotsteig',            'km': 136.6},
+        {'name': 'Annaberg',            'km': 154.4},
+    ],
+    4: [  # Heilbronn → Heilbronn
+        {'name': 'Schloss Stocksberg',  'km':  15.8},
+        {'name': 'Jägerhaus (1.)',      'km': 101.8},
+        {'name': 'Jägerhaus (2.)',      'km': 123.2},
+        {'name': 'Jägerhaus (3.)',      'km': 144.5},
+    ],
+}
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+PROFILE_WAYPOINTS = {
+    'giro2026': GIRO_WAYPOINTS,
+    'tour2026': TOUR_WAYPOINTS,
+    'deutschland2026': DEUTSCHLAND_WAYPOINTS,
+}
+
+# Touren, deren GPX-Dateien eine neutralisierte Anfahrt vor dem Rennkilometer 0
+# enthalten. Dort werden Wegpunkt-Kilometer vom Ziel aus gemessen, weil nur der
+# Abstand zum Ziel in GPX und Roadbook übereinstimmt.
+NEUTRALISED_START = {'deutschland2026'}
+
+
+def load_tours():
+    tours = []
+    manifest_path = os.path.join(BASE_DIR, 'tours', 'manifest.json')
+    with open(manifest_path, 'r', encoding='utf-8-sig') as source:
+        filenames = json.load(source)
+    for filename in filenames:
+        path = os.path.join(BASE_DIR, 'tours', filename)
+        with open(path, 'r', encoding='utf-8') as source:
+            tour = json.load(source)
+        tour['waypoints'] = PROFILE_WAYPOINTS.get(tour['id'], {})
+        tour['neutralisedStart'] = tour['id'] in NEUTRALISED_START
+        tours.append(tour)
+    return tours
 
 # ──────────────────────────────────────────────────────────────
 # HILFSFUNKTIONEN
@@ -322,7 +265,8 @@ def load_gpx(path):
 # PROFIL ZEICHNEN
 # ──────────────────────────────────────────────────────────────
 
-def generate_profile(gpx_path, out_path, stage, times, waypoints=None):
+def generate_profile(gpx_path, out_path, stage, times, waypoints=None,
+                     waypoints_from_end=False):
     pts = load_gpx(gpx_path)
     if len(pts) < 10:
         print('⚠️  zu wenig Höhendaten')
@@ -422,7 +366,7 @@ def generate_profile(gpx_path, out_path, stage, times, waypoints=None):
     used_km.append(total_km)
 
     # ── Zwischenpunkte ───────────────────────────────────────
-    t_data = times.get(stage['n'], {})
+    t_data = times.get(str(stage['n']), {})
     points = t_data.get('points', [])
     wpts   = waypoints.get(stage['n'], []) if waypoints else []
 
@@ -431,6 +375,12 @@ def generate_profile(gpx_path, out_path, stage, times, waypoints=None):
         for pt in points:
             km = time_to_km(pt['time'], t_data['start'], t_data['finish'], total_km)
             annotate(km, pt['name'])
+
+    elif wpts and waypoints_from_end:
+        # Km-basierte Positionierung, vom Ziel aus gemessen: das GPX enthält
+        # eine neutralisierte Anfahrt, daher stimmt nur der Restabstand.
+        for pt in wpts:
+            annotate(total_km - (stage['dist'] - pt['km']), pt['name'])
 
     elif wpts:
         # Km-basierte Positionierung aus offiziellen Profil-Grafiken
@@ -444,7 +394,8 @@ def generate_profile(gpx_path, out_path, stage, times, waypoints=None):
             annotate(p['km'], f"{int(round(p['elev']))} m", red=True)
 
     # ── Info-Box ─────────────────────────────────────────────
-    info = (f"Et. {stage['n']}  ·  {total_km:.0f} km  ·  "
+    stage_label = stage.get('label', f"Et. {stage['n']}")
+    info = (f"{stage_label}  ·  {total_km:.0f} km  ·  "
             f"{stage['elev']:,} Hm  ·  {TYPE_LABEL.get(stage['type'], '')}")
     ax.text(0.995, 0.975, info,
             transform=ax.transAxes, fontsize=7.5, color='#555',
@@ -468,9 +419,10 @@ def generate_profile(gpx_path, out_path, stage, times, waypoints=None):
 def main():
     total = ok = skipped = 0
 
-    for tour in TOURS:
+    for tour in load_tours():
         tid      = tour['id']
         wpts     = tour.get('waypoints', {})
+        from_end = tour.get('neutralisedStart', False)
         print(f"\n{'─'*54}")
         print(f"  {tid}")
         print(f"{'─'*54}")
@@ -479,7 +431,8 @@ def main():
             gpx_path = os.path.join(BASE_DIR, 'gpx',     tid, f'stage-{n}-route.gpx')
             out_path = os.path.join(BASE_DIR, 'profile', tid, f'stage-{n}-profile.jpg')
             total   += 1
-            label    = (f"Et. {n:2d}  {stage['start'][:14]:14s}"
+            stage_label = stage.get('label', f"Et. {n}")
+            label    = (f"{stage_label:7s}  {stage['start'][:14]:14s}"
                         f" → {stage['finish'][:14]:14s}")
             if not os.path.exists(gpx_path):
                 print(f"  {label}  ⚠️  GPX fehlt")
@@ -487,7 +440,8 @@ def main():
                 continue
             print(f"  {label}  ", end='', flush=True)
             try:
-                if generate_profile(gpx_path, out_path, stage, tour['times'], wpts):
+                if generate_profile(gpx_path, out_path, stage, tour['times'], wpts,
+                                    waypoints_from_end=from_end):
                     print('✅')
                     ok += 1
                 else:
