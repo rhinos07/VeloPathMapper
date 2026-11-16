@@ -1,0 +1,440 @@
+{
+  "id": "giro2027",
+  "year": 2027,
+  "name": "Giro d'Italia 2027",
+  "shortName": "Giro 2027",
+  "emoji": "🚴",
+  "color": "#e91e8c",
+  "textColor": "#ffffff",
+  "edition": "110. Ausgabe",
+  "dates": "8.–30. Mai 2027",
+  "startDesc": "Grande Partenza: Triest",
+  "totalDist": "~3.419 km",
+  "totalElev": "~50.250 Hm",
+  "mapCenter": [
+    43.5,
+    12
+  ],
+  "mapZoom": 6,
+  "gpxBase": "gpx/giro2027/",
+  "profileBase": "profile/giro2027/",
+  "urls": {
+    "official": "https://www.giroditalia.it/en/tappe/stage-{n}-of-the-giro-ditalia-2027-{slug}/",
+    "pcs": "https://www.procyclingstats.com/race/giro-d-italia/2027/stage-{n}",
+    "cs": "https://www.cyclingstage.com/giro-2027-route/stage-{n}-italy-2027/"
+  },
+  "times": {},
+  "stages": [
+    {
+      "n": 1,
+      "date": "Sa 8. Mai",
+      "start": "Triest",
+      "finish": "Triest",
+      "dist": 172,
+      "elev": 2400,
+      "type": "hilly",
+      "sll": [
+        45.65,
+        13.777
+      ],
+      "fll": [
+        45.65,
+        13.777
+      ],
+      "slug": "trieste-trieste",
+      "climbs": "Hügeliger Auftakt · Sella di Longera (Cattinara) im Finale · Etappe für Angreifer"
+    },
+    {
+      "n": 2,
+      "date": "So 9. Mai",
+      "start": "Ljubljana",
+      "finish": "Koper",
+      "dist": 166,
+      "elev": 2200,
+      "type": "hilly",
+      "sll": [
+        46.051,
+        14.506
+      ],
+      "fll": [
+        45.548,
+        13.73
+      ],
+      "slug": "ljubljana-koper",
+      "climbs": "Etappe in Slowenien · Anstiege bei Galantiči und Šrgaši · Ziel an der Adria"
+    },
+    {
+      "n": 3,
+      "date": "Mo 10. Mai",
+      "start": "Cervignano del Friuli",
+      "finish": "Possagno",
+      "dist": 163,
+      "elev": 1450,
+      "type": "sprint",
+      "sll": [
+        45.823,
+        13.336
+      ],
+      "fll": [
+        45.851,
+        11.88
+      ],
+      "slug": "cervignano-del-friuli-possagno",
+      "climbs": "Weitgehend flach · Muro di Ca' del Poggio · leicht ansteigendes Finale"
+    },
+    {
+      "n": 4,
+      "date": "Di 11. Mai",
+      "start": "Argenta",
+      "finish": "Misano Adriatico",
+      "dist": 151,
+      "elev": 750,
+      "type": "sprint",
+      "sll": [
+        44.615,
+        11.836
+      ],
+      "fll": [
+        43.962,
+        12.684
+      ],
+      "slug": "argenta-misano-adriatico",
+      "climbs": "Flachetappe für Sprinter · Ziel auf dem Autodromo Marco Simoncelli"
+    },
+    {
+      "n": 5,
+      "date": "Mi 12. Mai",
+      "start": "Filottrano",
+      "finish": "Sarnano-Sassotetto",
+      "dist": 139,
+      "elev": 3300,
+      "type": "mountain",
+      "sll": [
+        43.436,
+        13.351
+      ],
+      "fll": [
+        43.013,
+        13.24
+      ],
+      "slug": "filottrano-sarnano-sassotetto",
+      "climbs": "Erste Bergankunft · Valico di Maddalena · Sassotetto (13,1 km, 7,4 %)"
+    },
+    {
+      "n": 6,
+      "date": "Do 13. Mai",
+      "start": "Alba Adriatica",
+      "finish": "Lanciano",
+      "dist": 148,
+      "elev": 1700,
+      "type": "hilly",
+      "sll": [
+        42.833,
+        13.926
+      ],
+      "fll": [
+        42.231,
+        14.39
+      ],
+      "slug": "alba-adriatica-lanciano",
+      "climbs": "Mittelgebirge in den Abruzzen · schwieriges Finale · Chance für Ausreißer"
+    },
+    {
+      "n": 7,
+      "date": "Fr 14. Mai",
+      "start": "Sulmona",
+      "finish": "Campo di Giove",
+      "dist": 19.6,
+      "elev": 700,
+      "type": "itt",
+      "sll": [
+        42.048,
+        13.926
+      ],
+      "fll": [
+        41.98,
+        14.04
+      ],
+      "slug": "sulmona-campo-di-giove",
+      "climbs": "Bergzeitfahren · 19,6 km · Anstieg nach Campo di Giove"
+    },
+    {
+      "n": 8,
+      "date": "Sa 15. Mai",
+      "start": "Trasacco",
+      "finish": "Neapel",
+      "dist": 219,
+      "elev": 1300,
+      "type": "sprint",
+      "sll": [
+        41.957,
+        13.533
+      ],
+      "fll": [
+        40.852,
+        14.268
+      ],
+      "slug": "trasacco-napoli",
+      "climbs": "Lange Etappe nach Neapel · Valico di Monte San Biagio · Rampe von Posillipo im Finale"
+    },
+    {
+      "n": 9,
+      "date": "So 16. Mai",
+      "start": "Itri",
+      "finish": "Subiaco-Monte Livata",
+      "dist": 180,
+      "elev": 3150,
+      "type": "mountain",
+      "sll": [
+        41.291,
+        13.532
+      ],
+      "fll": [
+        41.893,
+        13.165
+      ],
+      "slug": "itri-subiaco-monte-livata",
+      "climbs": "Forca d'Acero · Bergankunft Monte Livata (14 km, 6,9 %)"
+    },
+    {
+      "n": 10,
+      "date": "Di 18. Mai",
+      "start": "Palombara Sabina",
+      "finish": "Norcia",
+      "dist": 218,
+      "elev": 3600,
+      "type": "hilly",
+      "sll": [
+        42.068,
+        12.766
+      ],
+      "fll": [
+        42.793,
+        13.093
+      ],
+      "slug": "palombara-sabina-norcia",
+      "climbs": "Apennin ohne flachen Meter · Forca Canapine · Castelluccio di Norcia"
+    },
+    {
+      "n": 11,
+      "date": "Mi 19. Mai",
+      "start": "Gualdo Tadino",
+      "finish": "Scarperia",
+      "dist": 220,
+      "elev": 2150,
+      "type": "sprint",
+      "sll": [
+        43.231,
+        12.783
+      ],
+      "fll": [
+        43.997,
+        11.371
+      ],
+      "slug": "gualdo-tadino-scarperia",
+      "climbs": "Längste Etappe · Passo del Muraglione · Ziel auf der Rennstrecke Mugello"
+    },
+    {
+      "n": 12,
+      "date": "Do 20. Mai",
+      "start": "Montecatini Terme",
+      "finish": "Zeri (Passo dei Due Santi)",
+      "dist": 173,
+      "elev": 3400,
+      "type": "mountain",
+      "sll": [
+        43.883,
+        10.773
+      ],
+      "fll": [
+        44.408,
+        9.87
+      ],
+      "slug": "montecatini-terme-zeri",
+      "climbs": "Passo del Vestito · Bergankunft am Passo dei Due Santi (8,7 km, 8,7 %)"
+    },
+    {
+      "n": 13,
+      "date": "Fr 21. Mai",
+      "start": "Borgo Val di Taro",
+      "finish": "Reggio Emilia",
+      "dist": 176,
+      "elev": 750,
+      "type": "sprint",
+      "sll": [
+        44.488,
+        9.769
+      ],
+      "fll": [
+        44.698,
+        10.631
+      ],
+      "slug": "borgo-val-di-taro-reggio-emilia",
+      "climbs": "Flachetappe durch die Poebene · Sprinterchance"
+    },
+    {
+      "n": 14,
+      "date": "Sa 22. Mai",
+      "start": "Cantù",
+      "finish": "Piani di Bobbio",
+      "dist": 187,
+      "elev": 4900,
+      "type": "mountain",
+      "sll": [
+        45.739,
+        9.13
+      ],
+      "fll": [
+        45.95,
+        9.48
+      ],
+      "slug": "cantu-piani-di-bobbio",
+      "climbs": "Madonna del Ghisallo · Culmine di San Pietro · Miragolo San Salvatore · Bergankunft Piani di Bobbio/Valtorta"
+    },
+    {
+      "n": 15,
+      "date": "So 23. Mai",
+      "start": "Monza",
+      "finish": "Mailand",
+      "dist": 37.3,
+      "elev": 150,
+      "type": "itt",
+      "sll": [
+        45.618,
+        9.281
+      ],
+      "fll": [
+        45.464,
+        9.19
+      ],
+      "slug": "monza-milano",
+      "climbs": "Flaches Einzelzeitfahren · 37,3 km · Start im Autodromo Nazionale"
+    },
+    {
+      "n": 16,
+      "date": "Di 25. Mai",
+      "start": "Sondrio",
+      "finish": "Aprica",
+      "dist": 192,
+      "elev": 5700,
+      "type": "mountain",
+      "sll": [
+        46.17,
+        9.87
+      ],
+      "fll": [
+        46.154,
+        10.152
+      ],
+      "slug": "sondrio-aprica",
+      "climbs": "Königsetappe · Passo Gavia (Cima Coppi) · zweimal Mortirolo (Montagna Pantani)"
+    },
+    {
+      "n": 17,
+      "date": "Mi 26. Mai",
+      "start": "Chiari",
+      "finish": "Vo'",
+      "dist": 194,
+      "elev": 1100,
+      "type": "sprint",
+      "sll": [
+        45.537,
+        9.93
+      ],
+      "fll": [
+        45.328,
+        11.64
+      ],
+      "slug": "chiari-vo",
+      "climbs": "Letzte Sprinterchance · kurze Anstiege bei Zovencedo und Calaone"
+    },
+    {
+      "n": 18,
+      "date": "Do 27. Mai",
+      "start": "Rovereto",
+      "finish": "Madonna di Campiglio",
+      "dist": 154,
+      "elev": 4450,
+      "type": "mountain",
+      "sll": [
+        45.89,
+        11.04
+      ],
+      "fll": [
+        46.23,
+        10.826
+      ],
+      "slug": "rovereto-madonna-di-campiglio",
+      "climbs": "Passo Ballino · Passo Durone · Bergankunft in Madonna di Campiglio"
+    },
+    {
+      "n": 19,
+      "date": "Fr 28. Mai",
+      "start": "Rovereto",
+      "finish": "Sacile",
+      "dist": 199,
+      "elev": 3000,
+      "type": "hilly",
+      "sll": [
+        45.89,
+        11.04
+      ],
+      "fll": [
+        45.954,
+        12.502
+      ],
+      "slug": "rovereto-sacile",
+      "climbs": "Übergangsetappe · Passo del Redebus · Sella Chianzutan"
+    },
+    {
+      "n": 20,
+      "date": "Sa 29. Mai",
+      "start": "Pordenone",
+      "finish": "Monte Zoncolan",
+      "dist": 180,
+      "elev": 3600,
+      "type": "mountain",
+      "sll": [
+        45.956,
+        12.66
+      ],
+      "fll": [
+        46.502,
+        12.926
+      ],
+      "slug": "pordenone-monte-zoncolan",
+      "climbs": "Letzte Bergankunft · Passo Duron · Sella Valcalda · Zoncolan von Ovaro (~10 km, ~12 %)"
+    },
+    {
+      "n": 21,
+      "date": "So 30. Mai",
+      "start": "Rom",
+      "finish": "Rom",
+      "dist": 131,
+      "elev": 500,
+      "type": "sprint",
+      "sll": [
+        41.886,
+        12.485
+      ],
+      "fll": [
+        41.886,
+        12.485
+      ],
+      "slug": "roma-roma",
+      "climbs": "Schlussetappe in Rom · Ziel am Circus Maximus"
+    }
+  ],
+  "rest": [
+    {
+      "before": 10,
+      "date": "Mo 17. Mai",
+      "label": "Ruhetag 1"
+    },
+    {
+      "before": 16,
+      "date": "Mo 24. Mai",
+      "label": "Ruhetag 2"
+    }
+  ]
+}
