@@ -1,0 +1,445 @@
+{
+  "id": "tour2027",
+  "year": 2027,
+  "name": "Tour de France 2027",
+  "shortName": "Tour 2027",
+  "emoji": "🏆",
+  "color": "#f59e0b",
+  "textColor": "#1a1a2e",
+  "edition": "114. Ausgabe",
+  "dates": "2.–25. Juli 2027",
+  "startDesc": "Grand Départ: Edinburgh",
+  "totalDist": "~3.479 km",
+  "totalElev": "~53.450 Hm",
+  "mapCenter": [
+    48,
+    1
+  ],
+  "mapZoom": 5,
+  "gpxBase": "gpx/tour2027/",
+  "profileBase": "profile/tour2027/",
+  "urls": {
+    "official": "https://www.letour.fr/de/stage/{n}",
+    "pcs": "https://www.procyclingstats.com/race/tour-de-france/2027/stage-{n}",
+    "cs": "https://www.cyclingstage.com/tour-de-france-2027-route/stage-{n}-france-2027/"
+  },
+  "times": {},
+  "stages": [
+    {
+      "n": 1,
+      "date": "Fr 2. Juli",
+      "start": "Edinburgh",
+      "finish": "Carlisle",
+      "dist": 185,
+      "elev": 2000,
+      "type": "sprint",
+      "sll": [
+        55.953,
+        -3.188
+      ],
+      "fll": [
+        54.892,
+        -2.932
+      ],
+      "slug": "edinburgh-carlisle",
+      "climbs": "Grand Départ in Schottland · Côte de Melrose früh · voraussichtlich Massensprint"
+    },
+    {
+      "n": 2,
+      "date": "Sa 3. Juli",
+      "start": "Keswick",
+      "finish": "Liverpool",
+      "dist": 223,
+      "elev": 3000,
+      "type": "hilly",
+      "sll": [
+        54.601,
+        -3.135
+      ],
+      "fll": [
+        53.408,
+        -2.992
+      ],
+      "slug": "keswick-liverpool",
+      "climbs": "Fünf Bergwertungen in der Etappenmitte · Côte de Parbold 40 km vor dem Ziel"
+    },
+    {
+      "n": 3,
+      "date": "So 4. Juli",
+      "start": "Welshpool",
+      "finish": "Cardiff",
+      "dist": 223,
+      "elev": 3000,
+      "type": "hilly",
+      "sll": [
+        52.66,
+        -3.147
+      ],
+      "fll": [
+        51.481,
+        -3.179
+      ],
+      "slug": "welshpool-cardiff",
+      "climbs": "Sieben Bergwertungen durch Wales · Côte de Caerphilly (2 km, 8,2 %) als letzte Rampe"
+    },
+    {
+      "n": 4,
+      "date": "Di 6. Juli",
+      "start": "Cherbourg-en-Cotentin",
+      "finish": "Cherbourg-en-Cotentin",
+      "dist": 171,
+      "elev": 2200,
+      "type": "hilly",
+      "sll": [
+        49.639,
+        -1.616
+      ],
+      "fll": [
+        49.639,
+        -1.616
+      ],
+      "slug": "cherbourg-en-cotentin-cherbourg-en-cotentin",
+      "climbs": "Rundkurs am Ärmelkanal · Windgefahr an der Küste · Côte du Becquet und ansteigendes Finale"
+    },
+    {
+      "n": 5,
+      "date": "Mi 7. Juli",
+      "start": "Pontorson",
+      "finish": "Plumelec",
+      "dist": 178,
+      "elev": 1900,
+      "type": "hilly",
+      "sll": [
+        48.553,
+        -1.508
+      ],
+      "fll": [
+        47.838,
+        -2.64
+      ],
+      "slug": "pontorson-plumelec",
+      "climbs": "Zwei Auffahrten zur Côte de Cadoudal (1,7 km, 6,2 %) auf den letzten 20 km"
+    },
+    {
+      "n": 6,
+      "date": "Do 8. Juli",
+      "start": "Vannes",
+      "finish": "Angers",
+      "dist": 193,
+      "elev": 1500,
+      "type": "sprint",
+      "sll": [
+        47.658,
+        -2.76
+      ],
+      "fll": [
+        47.474,
+        -0.551
+      ],
+      "slug": "vannes-angers",
+      "climbs": "Flache Etappe durch die Bretagne ins Loiretal · Sprinterchance"
+    },
+    {
+      "n": 7,
+      "date": "Fr 9. Juli",
+      "start": "Blois",
+      "finish": "Chambord",
+      "dist": 38,
+      "elev": 200,
+      "type": "itt",
+      "sll": [
+        47.586,
+        1.335
+      ],
+      "fll": [
+        47.616,
+        1.517
+      ],
+      "slug": "blois-chambord",
+      "climbs": "Einzelzeitfahren · 38 km · welliger Kurs zum Schloss Chambord"
+    },
+    {
+      "n": 8,
+      "date": "Sa 10. Juli",
+      "start": "Bourges",
+      "finish": "Le Creusot",
+      "dist": 224,
+      "elev": 3100,
+      "type": "hilly",
+      "sll": [
+        47.081,
+        2.399
+      ],
+      "fll": [
+        46.801,
+        4.426
+      ],
+      "slug": "bourges-le-creusot",
+      "climbs": "Längste Etappe · Côte de la Croix de la Libération · Signal d'Uchon (5,7 km, 5,7 %) 18 km vor dem Ziel"
+    },
+    {
+      "n": 9,
+      "date": "So 11. Juli",
+      "start": "Villars-les-Dombes",
+      "finish": "Grand Colombier",
+      "dist": 162,
+      "elev": 3750,
+      "type": "mountain",
+      "sll": [
+        46.002,
+        5.031
+      ],
+      "fll": [
+        45.901,
+        5.761
+      ],
+      "slug": "villars-les-dombes-grand-colombier",
+      "climbs": "Erste Bergankunft · Col du Berthiand · Col de Richemond · Grand Colombier (17,4 km, 7,1 %)"
+    },
+    {
+      "n": 10,
+      "date": "Di 13. Juli",
+      "start": "Annecy",
+      "finish": "Sallanches",
+      "dist": 171,
+      "elev": 3750,
+      "type": "mountain",
+      "sll": [
+        45.899,
+        6.129
+      ],
+      "fll": [
+        45.936,
+        6.632
+      ],
+      "slug": "annecy-sallanches",
+      "climbs": "Col du Plan du Salève · Montée de Brison · zweimal Côte de Domancy (2,5 km, 9,4 %)"
+    },
+    {
+      "n": 11,
+      "date": "Mi 14. Juli",
+      "start": "Cluses",
+      "finish": "Les Saisies",
+      "dist": 150,
+      "elev": 4750,
+      "type": "mountain",
+      "sll": [
+        46.06,
+        6.579
+      ],
+      "fll": [
+        45.759,
+        6.534
+      ],
+      "slug": "cluses-les-saisies",
+      "climbs": "Nationalfeiertag · Col de la Colombière · Col de la Croix Fry · Col du Pré · Montée de Bisanne · Bergankunft"
+    },
+    {
+      "n": 12,
+      "date": "Do 15. Juli",
+      "start": "Chambéry",
+      "finish": "Valence",
+      "dist": 162,
+      "elev": 1600,
+      "type": "sprint",
+      "sll": [
+        45.564,
+        5.918
+      ],
+      "fll": [
+        44.933,
+        4.892
+      ],
+      "slug": "chambery-valence",
+      "climbs": "Flach durch das Rhônetal · Windkanten möglich · Sprinterchance"
+    },
+    {
+      "n": 13,
+      "date": "Fr 16. Juli",
+      "start": "Aubenas",
+      "finish": "Montpellier",
+      "dist": 164,
+      "elev": 1500,
+      "type": "sprint",
+      "sll": [
+        44.62,
+        4.39
+      ],
+      "fll": [
+        43.611,
+        3.877
+      ],
+      "slug": "aubenas-montpellier",
+      "climbs": "Flache Etappe · neue Zielankunft im Stadtzentrum von Montpellier"
+    },
+    {
+      "n": 14,
+      "date": "Sa 17. Juli",
+      "start": "Montpellier",
+      "finish": "Mende",
+      "dist": 199,
+      "elev": 4300,
+      "type": "mountain",
+      "sll": [
+        43.611,
+        3.877
+      ],
+      "fll": [
+        44.505,
+        3.53
+      ],
+      "slug": "montpellier-mende",
+      "climbs": "Col du Vent · Cirque de Navacelles · Col de la Lusette · Côte de la Croix Neuve (3 km, 10,1 %)"
+    },
+    {
+      "n": 15,
+      "date": "So 18. Juli",
+      "start": "Rodez",
+      "finish": "Albi",
+      "dist": 169,
+      "elev": 2500,
+      "type": "hilly",
+      "sll": [
+        44.35,
+        2.575
+      ],
+      "fll": [
+        43.929,
+        2.148
+      ],
+      "slug": "rodez-albi",
+      "climbs": "Acht Bergwertungen · Etappe für Ausreißer · leicht ansteigendes Finale"
+    },
+    {
+      "n": 16,
+      "date": "Di 20. Juli",
+      "start": "Toulouse",
+      "finish": "Toulouse",
+      "dist": 33,
+      "elev": 200,
+      "type": "itt",
+      "sll": [
+        43.604,
+        1.444
+      ],
+      "fll": [
+        43.604,
+        1.444
+      ],
+      "slug": "toulouse-toulouse",
+      "climbs": "Einzelzeitfahren · 33 km · überwiegend flach · Côte de Pech-David (800 m, 12,4 %)"
+    },
+    {
+      "n": 17,
+      "date": "Mi 21. Juli",
+      "start": "Muret",
+      "finish": "Pau",
+      "dist": 186,
+      "elev": 2000,
+      "type": "sprint",
+      "sll": [
+        43.461,
+        1.327
+      ],
+      "fll": [
+        43.295,
+        -0.371
+      ],
+      "slug": "muret-pau",
+      "climbs": "Weitgehend flach · Côte de Baleix · Sprinterchance vor den Pyrenäen"
+    },
+    {
+      "n": 18,
+      "date": "Do 22. Juli",
+      "start": "Pau",
+      "finish": "Col du Portet",
+      "dist": 174,
+      "elev": 5400,
+      "type": "mountain",
+      "sll": [
+        43.295,
+        -0.371
+      ],
+      "fll": [
+        42.8,
+        0.29
+      ],
+      "slug": "pau-saint-lary-soulan-col-du-portet",
+      "climbs": "Königsetappe · Col du Soulor · Col du Tourmalet · Hourquette d'Ancizan · Col du Portet (16 km, 8,7 %)"
+    },
+    {
+      "n": 19,
+      "date": "Fr 23. Juli",
+      "start": "Hasparren",
+      "finish": "Laruns",
+      "dist": 160,
+      "elev": 4300,
+      "type": "mountain",
+      "sll": [
+        43.384,
+        -1.305
+      ],
+      "fll": [
+        42.988,
+        -0.427
+      ],
+      "slug": "hasparren-laruns",
+      "climbs": "Col de Burdincurutcheta (8,7 km, 9,3 %) · Col de Bagargui · Col de Soudet · Col de Marie Blanque"
+    },
+    {
+      "n": 20,
+      "date": "Sa 24. Juli",
+      "start": "Maubourguet",
+      "finish": "Libourne",
+      "dist": 198,
+      "elev": 1700,
+      "type": "sprint",
+      "sll": [
+        43.468,
+        0.036
+      ],
+      "fll": [
+        44.915,
+        -0.243
+      ],
+      "slug": "maubourguet-libourne",
+      "climbs": "Sprinteretappe · lange Gerade auf den letzten 6 km"
+    },
+    {
+      "n": 21,
+      "date": "So 25. Juli",
+      "start": "Saint-Quentin-en-Yvelines",
+      "finish": "Paris",
+      "dist": 116,
+      "elev": 800,
+      "type": "sprint",
+      "sll": [
+        48.778,
+        2.044
+      ],
+      "fll": [
+        48.869,
+        2.307
+      ],
+      "slug": "saint-quentin-en-yvelines-paris",
+      "climbs": "Dreimal Côte de la Butte Montmartre · Finale auf den Champs-Élysées"
+    }
+  ],
+  "rest": [
+    {
+      "before": 4,
+      "date": "Mo 5. Juli",
+      "label": "Ruhetag 1 – Transfer nach Cherbourg-en-Cotentin"
+    },
+    {
+      "before": 10,
+      "date": "Mo 12. Juli",
+      "label": "Ruhetag 2 – Haute-Savoie (Alpen)"
+    },
+    {
+      "before": 16,
+      "date": "Mo 19. Juli",
+      "label": "Ruhetag 3 – Toulouse"
+    }
+  ]
+}

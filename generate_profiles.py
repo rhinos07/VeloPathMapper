@@ -3,15 +3,19 @@
 VeloPathMapper – Höhenprofilgenerator
 Erzeugt Profil-Bilder aus den GPX-Dateien.
 
-Ortsnamen-Strategie:
-  - Giro-Etappen mit TIMES-Daten  → Ortsname aus Durchfahrtszeiten (zeitbasiert positioniert)
-  - Berg-/Hügel-Etappen ohne Namen → Gipfelerkennung + Reverse Geocoding via OpenStreetMap
-  - Flach-/Zeitfahren-Etappen      → nur Start/Ziel
+Beschriftungs-Strategie je Etappe (erste zutreffende Regel gewinnt):
+  1. times[n].points vorhanden     → Ortsnamen aus Durchfahrtszeiten, linear
+                                      zwischen Start- und Zielzeit positioniert
+  2. Wegpunkte + NEUTRALISED_START → Roadbook-km, vom Ziel aus gemessen
+  3. Wegpunkte (*_WAYPOINTS)       → Roadbook-km, auf die GPX-Länge skaliert
+  4. Berg-/Hügeletappe             → automatische Gipfelerkennung (Prominenz
+                                      > 100 m), beschriftet mit der Höhe in m
+  5. sonst (Flach/Zeitfahren)      → nur Start und Ziel
 
-Geocoding-Ergebnisse werden in .geocode_cache.json gespeichert,
-damit Folgeläufe die API nicht erneut befragen.
+Es werden keine externen Dienste abgefragt; das Skript arbeitet offline.
+Voraussetzung: Python 3.9+, gpxpy, matplotlib, numpy.
 
-Ausführen aus dem VeloPathMapper-Verzeichnis:
+Ausführen (aus beliebigem Verzeichnis, Pfade sind relativ zum Skript):
     python3 generate_profiles.py
 """
 
