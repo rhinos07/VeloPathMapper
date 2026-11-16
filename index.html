@@ -37,6 +37,18 @@ body{display:flex}
 }
 #sb-head .sub{font-size:10px;color:#475569;margin-top:1px;letter-spacing:.3px;text-transform:uppercase}
 
+/* ── Jahresauswahl ───────────────────────── */
+#year-select{display:flex;gap:4px;margin-top:10px}
+#year-select:empty{display:none}
+.ybtn{
+  flex:1;padding:4px 0;border-radius:6px;border:1px solid #334155;
+  background:transparent;color:#94a3b8;
+  font-size:12px;font-weight:700;cursor:pointer;
+  transition:background .15s,color .15s,border-color .15s;
+}
+.ybtn:hover{color:#f1f5f9;border-color:#475569}
+.ybtn.on{background:#38bdf8;border-color:#38bdf8;color:#0f172a}
+
 #sb-body{flex:1;overflow-y:auto;display:flex;flex-direction:column}
 
 .sb-section{padding:10px 16px 4px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.7px;color:#475569}
@@ -277,6 +289,7 @@ body{display:flex}
   <div id="sb-head">
     <h1>🗺️ VeloPathMapper</h1>
     <div class="sub">Grand Tour Kartenviewer</div>
+    <div id="year-select" role="group" aria-label="Jahr"><!-- wird dynamisch befüllt --></div>
   </div>
 
   <div id="sb-body">
@@ -405,6 +418,7 @@ async function loadTours() {
 //  ZUSTAND
 // ═══════════════════════════════════════════════
 const state = {
+  year: null,              // aktuell angezeigtes Jahr
   selectedTours: new Set(),
   tourData: {},            // tourId → { stageGroups: { n → {g,line,gpxLine} } }
   typeFilters: {sprint:true, hilly:true, mountain:true, itt:true},
@@ -684,10 +698,52 @@ function closePanel() {
 }
 
 // ═══════════════════════════════════════════════
+//  JAHRESAUSWAHL
+// ═══════════════════════════════════════════════
+function availableYears() {
+  return [...new Set((window.VPM_TOURS || []).map(t => t.year))].sort((a, b) => a - b);
+}
+
+// Aktuelles Jahr, sonst das letzte vergangene Jahr mit Daten, sonst das erste.
+function defaultYear() {
+  const years = availableYears();
+  const now = new Date().getFullYear();
+  if (years.includes(now)) return now;
+  const past = years.filter(y => y < now);
+  return past.length ? past[past.length - 1] : years[0];
+}
+
+function toursOfYear() {
+  return (window.VPM_TOURS || []).filter(t => t.year === state.year);
+}
+
+function buildYearSelect() {
+  const years = availableYears();
+  // Bei nur einem Jahr bleibt die Auswahl ausgeblendet (#year-select:empty)
+  document.getElementById('year-select').innerHTML = years.length < 2 ? '' :
+    years.map(y => `<button class="ybtn${y === state.year ? ' on' : ''}" aria-pressed="${y === state.year}"
+      onclick="setYear(${y})">${y}</button>`).join('');
+}
+
+function setYear(year) {
+  if (year === state.year) return;
+  [...state.selectedTours].forEach(id => removeTourFromMap(id));
+  state.selectedTours.clear();
+  state.year = year;
+  closePanel();
+  buildYearSelect();
+  buildSidebar();
+  updateLegend();
+  const tours = toursOfYear();
+  if (tours.length > 0) toggleTour(tours[0].id);
+  else if (document.getElementById('vstages').classList.contains('on')) renderStages();
+}
+
+// ═══════════════════════════════════════════════
 //  SIDEBAR AUFBAUEN
 // ═══════════════════════════════════════════════
 function buildSidebar() {
-  const tours = window.VPM_TOURS || [];
+  const tours = toursOfYear();
   document.getElementById('tour-list').innerHTML = tours.map(tour => `
     <div class="tour-item" id="ti-${tour.id}"
          onclick="toggleTour('${tour.id}')"
@@ -921,11 +977,9 @@ function toggleZoom() {
 document.addEventListener('DOMContentLoaded', async () => {
   try {
     await loadTours();
-    buildSidebar();
     initMap();
-    // Erste Tour direkt aktivieren
-    const tours = window.VPM_TOURS || [];
-    if (tours.length > 0) toggleTour(tours[0].id);
+    // Standardjahr wählen; aktiviert die erste Tour dieses Jahres
+    setYear(defaultYear());
   } catch (error) {
     console.error('Tour data could not be loaded:', error);
     document.getElementById('tour-list').textContent = 'Tour-Daten konnten nicht geladen werden.';
